@@ -1,10 +1,25 @@
 "use client";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 export default function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
 
   const handleEmployeeLogin = () => {
+    // if (!username || !password) {
+    //   alert("Please enter both username and password.");
+    //   return;
+    // }
     router.push("/dashboard/new-request");
+  };
+
+  const handleAdminLogin = () => {
+    // if (!username || !password) {
+    //   alert("Please enter both username and password.");
+    //   return;
+    // }
+    router.push("/dashboard");
   };
 
   return (
@@ -13,34 +28,38 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold text-center mb-6">
           NextDesk - IT Help Desk
         </h1>
-        <div className="flex flex-col space-y-4 ">
+        <form className="flex flex-col space-y-4 ">
           <input
             type="text"
             placeholder="Username"
             required
             className="px-4 py-2 border rounded-md"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
             required
             className="px-4 py-2 border rounded-md"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button
-            type="submit"
+            type="button"
             className="bg-blue-950 text-white py-2 rounded-md hover:bg-blue-800 transition-all duration-300 hover:shadow-lg transform hover:scale-105"
             onClick={handleEmployeeLogin}
           >
             Login as Employee
           </button>
           <button
-            type="submit"
+            type="button"
             className="bg-gray-300 text-white py-2 rounded-md hover:bg-gray-500 transition-all duration-300 hover:shadow-lg transform hover:scale-105"
-            onClick={handleEmployeeLogin}
+            onClick={handleAdminLogin}
           >
             Login as Admin
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
