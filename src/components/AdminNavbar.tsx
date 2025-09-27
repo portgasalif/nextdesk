@@ -1,32 +1,32 @@
 "use client";
 
-export default function EmployeeNavbar() {
+export default function AdminNavbar() {
   return (
     <nav className="bg-white shadow border-b flex justify-between items-center p-4 h-16">
       <h2
-        className="text-xl font-bold 
+        className="text-xl font-bold
   text-blue-900"
       >
-        NextDesk
+        NextDesk Admin
       </h2>
       <div className="space-x-4 flex items-center text-blue-900">
         <a
-          href="/dashboardEmployee"
+          href="/dashboard"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
           Dashboard
         </a>
         <a
-          href="/dashboardEmployee/new-request"
+          href="/dashboard/reports"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
-          New Request
+          Reports
         </a>
         <a
           href="#"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
-          Profile
+          Settings
         </a>
         <a
           href="#"

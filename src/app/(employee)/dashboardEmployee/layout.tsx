@@ -5,11 +5,9 @@ export default function EmployeeDashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <header>
-        <EmployeeNavbar />
-      </header>
-      <div>{children}</div>
-    </div>
+    <>
+      <EmployeeNavbar />
+      {children}
+    </>
   );
 }
