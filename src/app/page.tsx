@@ -19,7 +19,7 @@ export default function LoginPage() {
     //   alert("Please enter both username and password.");
     //   return;
     // }
-    router.push("/dashboard");
+    router.push("/dashboardAdmin");
   };
 
   return (
