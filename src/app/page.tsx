@@ -6,20 +6,13 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleEmployeeLogin = () => {
-    // if (!username || !password) {
-    //   alert("Please enter both username and password.");
-    //   return;
-    // }
-    router.push("/dashboardEmployee");
-  };
+  const handleLogin = () => {
+    if (!username || !password) {
+      alert("Please enter both username and password.");
+      return;
+    }
 
-  const handleAdminLogin = () => {
-    // if (!username || !password) {
-    //   alert("Please enter both username and password.");
-    //   return;
-    // }
-    router.push("/dashboardAdmin");
+    router.push("/dashboardEmployee");
   };
 
   return (
@@ -48,16 +41,9 @@ export default function LoginPage() {
           <button
             type="button"
             className="bg-blue-950 text-white py-2 rounded-md hover:bg-blue-800 transition-all duration-300 hover:shadow-lg transform hover:scale-105"
-            onClick={handleEmployeeLogin}
+            onClick={handleLogin}
           >
-            Login as Employee
-          </button>
-          <button
-            type="button"
-            className="bg-gray-300 text-white py-2 rounded-md hover:bg-gray-500 transition-all duration-300 hover:shadow-lg transform hover:scale-105"
-            onClick={handleAdminLogin}
-          >
-            Login as Admin
+            Login
           </button>
         </form>
       </div>
