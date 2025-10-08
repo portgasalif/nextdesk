@@ -8,14 +8,16 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  username   String    @unique
+  id         Int      @id @default(autoincrement())
+  username   String   @unique
   password   String
   name       String
-  role       String
+  role       String   @default("employee")
   department String?
-  createdAt  DateTime  @default(now())
-  requests   Request[]
+  createdAt  DateTime @default(now())
+
+  requests   Request[] @relation("UserRequests")
+  assigned   Request[] @relation("AdminAssigned")
 }
 
 model Request {
@@ -26,6 +28,13 @@ model Request {
   status      String   @default("pending")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
   userId      Int
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation("UserRequests", fields: [userId], references: [id])
+
+  assignedTo  Int?
+  admin       User?    @relation("AdminAssigned", fields: [assignedTo], references: [id])
+
+  @@index([userId])
+  @@index([status])
 }
