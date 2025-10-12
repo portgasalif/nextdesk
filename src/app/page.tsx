@@ -4,15 +4,45 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    setLoading(true);
+    setError("");
     if (!username || !password) {
-      alert("Please enter both username and password.");
+      setError("Please enter both username and password.");
+      setLoading(false);
       return;
     }
 
-    router.push("/dashboardEmployee");
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        if (data.user.role === "admin") {
+          router.push("/dashboardAdmin");
+        } else {
+          router.push("/dashboardEmployee");
+        }
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (error) {
+      setError("An error occurred. Please try again.");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -21,6 +51,11 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold text-center mb-6">
           NextDesk - IT Help Desk
         </h1>
+        {error && (
+          <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4">
+            {error}
+          </div>
+        )}
         <form className="flex flex-col space-y-4 ">
           <input
             type="text"
@@ -40,10 +75,11 @@ export default function LoginPage() {
           />
           <button
             type="button"
-            className="bg-blue-950 text-white py-2 rounded-md hover:bg-blue-800 transition-all duration-300 hover:shadow-lg transform hover:scale-105"
+            className="bg-blue-950 text-white py-2 rounded-md hover:bg-blue-800 transition-all duration-300 hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleLogin}
+            disabled={loading}
           >
-            Login
+            {loading ? "Loading..." : "Login"}
           </button>
         </form>
       </div>
