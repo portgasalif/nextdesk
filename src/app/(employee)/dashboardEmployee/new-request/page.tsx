@@ -2,8 +2,6 @@
 import { useState } from "react";
 
 export default function NewRequestPage() {
-  const [name, setName] = useState("");
-  const [department, setDepartment] = useState("");
   const [category, setCategory] = useState("");
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
@@ -15,29 +13,6 @@ export default function NewRequestPage() {
           Create New Request
         </h1>
         <form className="flex flex-col space-y-2 ">
-          <label className=" font-medium text-gray-700">Name</label>
-          <input
-            type="text"
-            placeholder="Enter your full name"
-            required
-            className="px-4 py-2 border rounded-md"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-
-          <label className=" font-medium text-gray-700">Department</label>
-          <select
-            onChange={(e) => setDepartment(e.target.value)}
-            value={department}
-            className="px-4 py-2 border rounded-md"
-            required
-          >
-            <option value="">Select Department</option>
-            <option value="IT">IT</option>
-            <option value="HR">HR</option>
-            <option value="Finance">Finance</option>
-          </select>
-
           <label className=" font-medium text-gray-700">Category</label>
           <select
             onChange={(e) => setCategory(e.target.value)}
