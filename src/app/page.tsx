@@ -8,7 +8,8 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
     setError("");
     if (!username || !password) {
@@ -56,7 +57,7 @@ export default function LoginPage() {
             {error}
           </div>
         )}
-        <form className="flex flex-col space-y-4 ">
+        <form className="flex flex-col space-y-4" onSubmit={handleLogin}>
           <input
             type="text"
             placeholder="Username"
@@ -74,9 +75,8 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
-            type="button"
+            type="submit"
             className="bg-blue-950 text-white py-2 rounded-md hover:bg-blue-800 transition-all duration-300 hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={handleLogin}
             disabled={loading}
           >
             {loading ? "Loading..." : "Login"}
