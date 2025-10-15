@@ -55,12 +55,26 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleStatusChange = (id: number, newStatus: string) => {
-    setRequests((prevRequests) =>
-      prevRequests.map((request) =>
-        request.id === id ? { ...request, status: newStatus } : request
-      )
-    );
+  const handleStatusChange = async (id: number, newStatus: string) => {
+    try {
+      const response = await fetch(`/api/requests/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (response.ok) {
+        setRequests((prevRequests) =>
+          prevRequests.map((request) =>
+            request.id === id ? { ...request, status: newStatus } : request
+          )
+        );
+      } else {
+        alert("Failed to update status");
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert("Error updating status");
+    }
   };
   return (
     <div className="max-w-7xl mx-auto p-8">

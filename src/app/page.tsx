@@ -82,6 +82,21 @@ export default function LoginPage() {
             {loading ? "Loading..." : "Login"}
           </button>
         </form>
+
+        <div className="mt-6 flex flex-col space-y-3">
+          <button
+            type="button"
+            className="w-full py-2 text-blue-950 border border-blue-950 rounded-md hover:bg-blue-50 transition-all duration-300"
+          >
+            Register
+          </button>
+          <button
+            type="button"
+            className="w-full py-2 text-gray-600 hover:text-blue-950 transition-colors duration-300 text-sm"
+          >
+            Forgot Password?
+          </button>
+        </div>
       </div>
     </div>
   );
