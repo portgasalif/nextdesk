@@ -1,19 +1,41 @@
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+type Request = {
+  id: number;
+  subject: string;
+  category: string;
+  createdAt: string;
+  status: string;
+};
+
 export default function DashboardEmployeePage() {
-  //mockdata
-  const requests = [
-    {
-      subject: "Laptop won't boot",
-      category: "IT Support",
-      date: "2024-01-15",
-      status: "pending",
-    },
-    {
-      subject: "AC broken room 201",
-      category: "Facilities",
-      date: "2024-01-14",
-      status: "completed",
-    },
-  ];
+  const [requests, setRequests] = useState<Request[]>([]);
+  const router = useRouter();
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const userAccount = localStorage.getItem("user");
+        if (!userAccount) {
+          alert("User not logged in");
+          router.push("/");
+          return;
+        }
+        const user = JSON.parse(userAccount);
+        const response = await fetch(`/api/requests?userId=${user.id}`);
+        const data = await response.json();
+        if (response.ok) {
+          setRequests(data.requests);
+        } else {
+          console.log("Failed to fetch:", data.message);
+        }
+      } catch (error) {
+        console.log(`failed to fetch: ${error}`);
+      }
+    };
+    fetchRequests();
+  }, [router]);
 
   return (
     <div className="max-w-5xl mx-auto p-8">
@@ -36,7 +58,7 @@ export default function DashboardEmployeePage() {
         </thead>
         <tbody>
           {requests.map((request, index) => (
-            <tr key={index}>
+            <tr key={request.id}>
               <td className="border border-gray-300 px-4 py-2 text-left">
                 {index + 1}{" "}
               </td>
@@ -47,7 +69,7 @@ export default function DashboardEmployeePage() {
                 {request.category}
               </td>
               <td className="border border-gray-300 px-4 py-2 text-left">
-                {request.date}
+                {new Date(request.createdAt).toLocaleDateString()}
               </td>
               <td className="border border-gray-300 px-4 py-2 text-left">
                 {request.status}
