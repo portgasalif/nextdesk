@@ -34,3 +34,28 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET(request: Request) {
+  try {
+    const url = new URL(request.url);
+    const userId = url.searchParams.get("userId");
+    let requests;
+    if (userId) {
+      requests = await prisma.request.findMany({
+        where: { userId: parseInt(userId) },
+        include: { user: true },
+      });
+    } else {
+      requests = await prisma.request.findMany({
+        include: { user: true },
+      });
+    }
+    return NextResponse.json({ requests });
+  } catch (error) {
+    console.log("Request fetching error:", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
