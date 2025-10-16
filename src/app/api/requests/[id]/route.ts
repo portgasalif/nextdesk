@@ -3,11 +3,11 @@ import prisma from "@/lib/prisma";
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { status } = await request.json();
-
+    const { id } = await params;
     if (!status) {
       return NextResponse.json(
         { message: "Status is required" },
@@ -15,7 +15,7 @@ export async function PATCH(
       );
     }
     const statusUpdate = await prisma.request.update({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
       data: { status },
     });
     return NextResponse.json(
