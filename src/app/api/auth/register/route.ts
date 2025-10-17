@@ -38,14 +38,14 @@ export async function POST(request: Request) {
         password: pass,
         name,
         department,
-        role: "user",
+        role: "employee",
       },
     });
-    const { password: _, ...newUserData } = newUser;
+    const { password: _, ...user } = newUser;
     return NextResponse.json(
       {
-        status: "success",
-        newUser: newUserData,
+        message: "Registration successful",
+        user: user,
       },
       { status: 201 }
     );
