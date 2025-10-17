@@ -8,8 +8,8 @@ export async function POST(request: Request) {
     const username = data.username?.trim();
     const password = data.password?.trim();
     const name = data.name?.trim();
-      const department = data.department?.trim();
-      
+    const department = data.department?.trim();
+
     if (!username || !password || !name || !department) {
       return NextResponse.json(
         { message: "All fields are required" },
