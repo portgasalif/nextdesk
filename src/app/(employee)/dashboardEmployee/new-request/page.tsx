@@ -1,12 +1,48 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function NewRequestPage() {
-  const [name, setName] = useState("");
-  const [department, setDepartment] = useState("");
   const [category, setCategory] = useState("");
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
+  const router = useRouter();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    try {
+      const userAccount = localStorage.getItem("user");
+      if (!userAccount) {
+        alert("User not logged in");
+        router.push("/");
+        return;
+      }
+      const user = JSON.parse(userAccount);
+      const response = await fetch("/api/requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          category,
+          subject,
+          description,
+          userId: user.id,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        router.push("/dashboardEmployee");
+      } else {
+        alert(data.message || "Request submission failed");
+        console.log(data.message || "Request submission failed");
+      }
+    } catch (error) {
+      alert("An error occurred. Please try again.");
+      console.log("An error occurred. Please try again.", error);
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center text-black mx-auto">
@@ -14,30 +50,7 @@ export default function NewRequestPage() {
         <h1 className="text-3xl font-bold text-center mb-6">
           Create New Request
         </h1>
-        <form className="flex flex-col space-y-2 ">
-          <label className=" font-medium text-gray-700">Name</label>
-          <input
-            type="text"
-            placeholder="Enter your full name"
-            required
-            className="px-4 py-2 border rounded-md"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-
-          <label className=" font-medium text-gray-700">Department</label>
-          <select
-            onChange={(e) => setDepartment(e.target.value)}
-            value={department}
-            className="px-4 py-2 border rounded-md"
-            required
-          >
-            <option value="">Select Department</option>
-            <option value="IT">IT</option>
-            <option value="HR">HR</option>
-            <option value="Finance">Finance</option>
-          </select>
-
+        <form className="flex flex-col space-y-2 " onSubmit={handleSubmit}>
           <label className=" font-medium text-gray-700">Category</label>
           <select
             onChange={(e) => setCategory(e.target.value)}
@@ -74,7 +87,7 @@ export default function NewRequestPage() {
             onChange={(e) => setDescription(e.target.value)}
           />
           <button
-            type="button"
+            type="submit"
             className="bg-blue-950 text-white py-2 rounded-md hover:bg-blue-800 transition-all duration-300 hover:shadow-lg transform hover:scale-105"
           >
             Submit Request

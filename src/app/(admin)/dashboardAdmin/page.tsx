@@ -1,42 +1,46 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+type Request = {
+  id: number;
+  user: {
+    name: string;
+    department: string;
+  };
+  subject: string;
+  category: string;
+  createdAt: string;
+  status: string;
+};
 
 export default function AdminDashboardPage() {
-  // Mock data semua request dari berbagai employee
-  const [requests, setRequests] = useState([
-    {
-      id: 1,
-      employeeName: "John Doe",
-      subject: "Laptop won't boot",
-      category: "IT Support",
-      date: "2024-01-15",
-      status: "pending",
-    },
-    {
-      id: 2,
-      employeeName: "Jane Smith",
-      subject: "AC broken room 201",
-      category: "Facilities",
-      date: "2024-01-14",
-      status: "in-progress",
-    },
-    {
-      id: 3,
-      employeeName: "Bob Wilson",
-      subject: "Printer not working",
-      category: "IT Support",
-      date: "2024-01-13",
-      status: "completed",
-    },
-    {
-      id: 4,
-      employeeName: "Sarah Johnson",
-      subject: "Need new office chair",
-      category: "Equipment",
-      date: "2024-01-12",
-      status: "pending",
-    },
-  ]);
+  const [requests, setRequests] = useState<Request[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const userAccount = localStorage.getItem("user");
+        if (!userAccount) {
+          alert("User not logged in");
+          router.push("/");
+          return;
+        }
+
+        const response = await fetch("/api/requests");
+        const data = await response.json();
+        if (response.ok) {
+          setRequests(data.requests);
+        } else {
+          console.log("Failed to fetch:", data.message);
+        }
+      } catch (error) {
+        console.log(`failed to fetch: ${error}`);
+      }
+    };
+    fetchRequests();
+  }, [router]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -51,12 +55,26 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleStatusChange = (id: number, newStatus: string) => {
-    setRequests((prevRequests) =>
-      prevRequests.map((request) =>
-        request.id === id ? { ...request, status: newStatus } : request
-      )
-    );
+  const handleStatusChange = async (id: number, newStatus: string) => {
+    try {
+      const response = await fetch(`/api/requests/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (response.ok) {
+        setRequests((prevRequests) =>
+          prevRequests.map((request) =>
+            request.id === id ? { ...request, status: newStatus } : request
+          )
+        );
+      } else {
+        alert("Failed to update status");
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert("Error updating status");
+    }
   };
   return (
     <div className="max-w-7xl mx-auto p-8">
@@ -101,7 +119,10 @@ export default function AdminDashboardPage() {
                   {index + 1}
                 </td>
                 <td className="px-6 py-4 text-base text-gray-900 font-medium">
-                  {request.employeeName}
+                  {request.user.name} <br />
+                  <span className="text-sm text-gray-500">
+                    {request.user.department}
+                  </span>
                 </td>
                 <td className="px-6 py-4 text-base text-gray-900">
                   {request.subject}
@@ -110,7 +131,7 @@ export default function AdminDashboardPage() {
                   {request.category}
                 </td>
                 <td className="px-6 py-4 text-base text-gray-900">
-                  {request.date}
+                  {new Date(request.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 text-base text-gray-900">
                   <span
