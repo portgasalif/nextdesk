@@ -1,9 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx prisma migrate dev:*)",
-      "Bash(npx prisma db seed:*)",
-      "Bash(cat:*)"
+      "Bash(node -e \"const bcrypt = require(''bcryptjs''); bcrypt.hash(''admin123'', 10).then(hash => console.log(''Hash for admin123:'', hash));\")"
     ],
     "deny": [],
     "ask": []
