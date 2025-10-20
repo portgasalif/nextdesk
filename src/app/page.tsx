@@ -127,7 +127,9 @@ export default function LoginPage() {
           <div className="text-center mt-4">
             <button
               type="button"
-              className="text-sm text-gray-600 hover:text-blue-950 transition-colors"
+              disabled
+              className="text-sm text-gray-400 cursor-not-allowed"
+              title="Feature coming soon"
             >
               Forgot Password?
             </button>

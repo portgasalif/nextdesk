@@ -28,12 +28,12 @@ export default function EmployeeNavbar() {
         >
           New Request
         </a>
-        <a
-          href="#"
-          className="hover:text-blue-500 transition-colors duration-200 "
+        <span
+          className="text-gray-400 cursor-not-allowed"
+          title="Feature coming soon"
         >
           Profile
-        </a>
+        </span>
         <button
           onClick={handleLogout}
           className="hover:text-blue-500 transition-colors duration-200 "

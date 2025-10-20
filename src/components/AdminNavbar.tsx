@@ -21,18 +21,18 @@ export default function AdminNavbar() {
         >
           Dashboard
         </a>
-        <a
-          href="/dashboard/reports"
-          className="hover:text-blue-500 transition-colors duration-200 "
+        <span
+          className="text-gray-400 cursor-not-allowed"
+          title="Feature coming soon"
         >
           Reports
-        </a>
-        <a
-          href="#"
-          className="hover:text-blue-500 transition-colors duration-200 "
+        </span>
+        <span
+          className="text-gray-400 cursor-not-allowed"
+          title="Feature coming soon"
         >
           Settings
-        </a>
+        </span>
         <button
           onClick={handleLogout}
           className="hover:text-blue-500 transition-colors duration-200 "
