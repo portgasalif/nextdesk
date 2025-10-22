@@ -1,5 +1,5 @@
 import EmployeeNavbar from "@/components/EmployeeNavbar";
-export default function EmployeeDashboardLayout({
+export default function EmployeeLayout({
   children,
 }: {
   children: React.ReactNode;
