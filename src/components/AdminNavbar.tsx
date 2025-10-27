@@ -16,7 +16,7 @@ export default function AdminNavbar() {
       </h2>
       <div className="space-x-4 flex items-center text-blue-900">
         <a
-          href="/dashboard"
+          href="/dashboardAdmin"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
           Dashboard

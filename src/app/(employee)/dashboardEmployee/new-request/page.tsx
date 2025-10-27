@@ -36,11 +36,11 @@ export default function NewRequestPage() {
         router.push("/dashboardEmployee");
       } else {
         alert(data.message || "Request submission failed");
-        console.log(data.message || "Request submission failed");
+        console.error("Request submission failed:", data.message);
       }
     } catch (error) {
       alert("An error occurred. Please try again.");
-      console.log("An error occurred. Please try again.", error);
+      console.error("Request submission error:", error);
     }
   }
 

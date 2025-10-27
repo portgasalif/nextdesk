@@ -22,7 +22,6 @@ export default function ProfileEmployeePage() {
   useEffect(() => {
     const userData = localStorage.getItem("user");
     if (!userData) {
-      alert("User not logged in");
       router.push("/");
       return;
     } else {

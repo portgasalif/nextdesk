@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function ChangePassword() {
@@ -10,6 +10,12 @@ export default function ChangePassword() {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (!userData) {
+      router.push("/");
+    }
+  }, [router]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -45,7 +51,7 @@ export default function ChangePassword() {
         setError(data.message || "Password change failed");
       }
     } catch (error) {
-      console.log("An error occurred. Please try again.", error);
+      console.error("Password change error:", error);
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);

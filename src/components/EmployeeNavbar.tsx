@@ -1,5 +1,4 @@
 "use client";
-// import { useRouter } from "next/navigation";
 export default function EmployeeNavbar() {
  
   return (
@@ -29,12 +28,6 @@ export default function EmployeeNavbar() {
         >
           Profile
         </a>
-        {/* <button
-          onClick={handleLogout}
-          className="hover:text-blue-500 transition-colors duration-200 "
-        >
-          Logout
-        </button> */}
       </div>
     </nav>
   );

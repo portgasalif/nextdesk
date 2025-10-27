@@ -40,7 +40,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
-      console.log(error);
+      console.error("Login error:", error);
     } finally {
       setLoading(false);
     }
