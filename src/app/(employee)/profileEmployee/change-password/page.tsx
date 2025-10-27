@@ -6,18 +6,49 @@ export default function ChangePassword() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     if (newPassword !== confirmNewPassword) {
-      alert("New passwords do not match.");
+      setError("New passwords do not match.");
+      setLoading(false);
       return;
     }
-
+    const userData = localStorage.getItem("user");
+    if (!userData) {
+      setError("User not logged in");
+      setLoading(false);
+      return;
+    }
+    const user = JSON.parse(userData);
     try {
+      const response = await fetch("/api/user/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          currentPassword,
+          newPassword,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert("Password changed successfully!");
+        router.push("/profileEmployee");
+      } else {
+        setError(data.message || "Password change failed");
+      }
     } catch (error) {
       console.log("An error occurred. Please try again.", error);
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,6 +69,11 @@ export default function ChangePassword() {
           Back
         </button>
         <div className="bg-white rounded-xl shadow-lg p-8 border-gray-100">
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg mb-6">
+              <p className="text-sm">{error}</p>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="text-gray-700 font-medium mb-2 text-lg block">
@@ -76,8 +112,12 @@ export default function ChangePassword() {
               />
             </div>
             <div className="space-y-4">
-              <button className="w-full py-3 bg-gradient-to-r from-blue-900 to-blue-950 rounded-xl font-semibold hover:from-blue-950 hover:to-blue-900 text-white  ">
-                Change Password
+              <button
+                type="submit"
+                className="w-full py-3 bg-gradient-to-r from-blue-900 to-blue-950 rounded-xl font-semibold hover:from-blue-950 hover:to-blue-900 text-white"
+                disabled={loading}
+              >
+                {loading ? "Changing Password..." : "Change Password"}
               </button>
             </div>
           </form>
