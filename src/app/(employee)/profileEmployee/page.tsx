@@ -37,9 +37,7 @@ export default function ProfileEmployeePage() {
     <div className="px-4 py-8 min-h-screen ">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-slate-700 to-slate-900 bg-clip-text text-transparent">
-            My Profile
-          </h1>
+          <h1 className="text-3xl font-bold mb-2 text-slate-800">My Profile</h1>
           <p className="text-slate-600">Manage your account information</p>
         </div>
         <div className="bg-white rounded-xl shadow-lg p-8 border-gray-100">
