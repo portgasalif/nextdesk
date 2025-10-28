@@ -1,12 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
 export default function EmployeeNavbar() {
-  const router = useRouter();
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    router.push("/");
-  };
+ 
   return (
     <nav className="bg-white shadow border-b flex justify-between items-center p-4 h-16">
       <h2
@@ -28,18 +22,12 @@ export default function EmployeeNavbar() {
         >
           New Request
         </a>
-        <span
-          className="text-gray-400 cursor-not-allowed"
-          title="Feature coming soon"
-        >
-          Profile
-        </span>
-        <button
-          onClick={handleLogout}
+        <a
+          href="/profileEmployee"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
-          Logout
-        </button>
+          Profile
+        </a>
       </div>
     </nav>
   );

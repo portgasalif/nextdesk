@@ -33,10 +33,10 @@ export default function AdminDashboardPage() {
         if (response.ok) {
           setRequests(data.requests);
         } else {
-          console.log("Failed to fetch:", data.message);
+          console.error("Failed to fetch:", data.message);
         }
       } catch (error) {
-        console.log(`failed to fetch: ${error}`);
+        console.error("Failed to fetch requests:", error);
       }
     };
     fetchRequests();
