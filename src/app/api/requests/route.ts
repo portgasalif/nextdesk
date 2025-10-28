@@ -52,7 +52,7 @@ export async function GET(request: Request) {
     }
     return NextResponse.json({ requests });
   } catch (error) {
-    console.log("Request fetching error:", error);
+    console.error("Request fetching error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
