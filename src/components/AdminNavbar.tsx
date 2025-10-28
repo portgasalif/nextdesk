@@ -35,7 +35,7 @@ export default function AdminNavbar() {
         </span>
         <button
           onClick={handleLogout}
-          className="hover:text-blue-500 transition-colors duration-200 "
+          className="px-3 py-1.5 text-sm border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-semibold rounded-lg transition-all duration-200"
         >
           Logout
         </button>

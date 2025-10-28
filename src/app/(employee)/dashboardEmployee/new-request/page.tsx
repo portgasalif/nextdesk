@@ -48,54 +48,69 @@ export default function NewRequestPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center text-black mx-auto">
-      <div className="bg-white p-8 rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold text-center mb-6">
+    <div className="min-h-screen px-4 py-8 ">
+      <div className="max-w-4xl mx-auto bg-white  rounded-xl shadow-xl border border-slate-200 p-8 ">
+        <h1 className="text-3xl font-bold text-center text-slate-800 mb-6">
           Create New Request
         </h1>
-        <form className="flex flex-col space-y-2 " onSubmit={handleSubmit}>
-          <label className=" font-medium text-gray-700">Category</label>
-          <select
-            onChange={(e) => setCategory(e.target.value)}
-            value={category}
-            className="px-4 py-2 border rounded-md"
-            required
-          >
-            <option value="">Select Category</option>
-            <option value="IT Support">IT Support</option>
-            <option value="Facilities">Facilities</option>
-            <option value="Transportation">Transportation</option>
-            <option value="Equipment">Equipment</option>
-            <option value="Maintenance">Maintenance</option>
-            <option value="Other">Other</option>
-          </select>
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div>
+            <label className="block font-medium text-slate-900 mb-2">
+              Category
+            </label>
+            <select
+              onChange={(e) => setCategory(e.target.value)}
+              value={category}
+              className="w-full px-4 py-2 border rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500 border-gray-300"
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="IT Support">IT Support</option>
+              <option value="Facilities">Facilities</option>
+              <option value="Transportation">Transportation</option>
+              <option value="Equipment">Equipment</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
 
-          <label className=" font-medium text-gray-700">Subject</label>
-          <input
-            type="text"
-            placeholder="Brief description of your request"
-            required
-            className="px-4 py-2 border rounded-md"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-          />
+          <div>
+            <label className="block font-medium text-slate-900 mb-2">
+              Subject
+            </label>
+            <input
+              type="text"
+              placeholder="Brief description of your request"
+              required
+              className="w-full px-4 py-2 border rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500 border-gray-300"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+            />
+          </div>
 
-          <label className=" font-medium text-gray-700">Description</label>
-          <textarea
-            placeholder="Provide detailed information about your request"
-            required
-            rows={4}
-            className="px-4 py-2 border rounded-md"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="bg-blue-950 text-white py-2 rounded-md hover:bg-blue-800 transition-all duration-300 hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={loading}
-          >
-            {loading ? "Submitting..." : "Submit Request"}
-          </button>
+          <div>
+            <label className="block font-medium text-slate-900 mb-2">
+              Description
+            </label>
+            <textarea
+              placeholder="Provide detailed information about your request"
+              required
+              rows={4}
+              className="w-full px-4 py-2 border rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500 border-gray-300"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="w-full text-white py-4 px-6 rounded-xl bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit Request"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -52,7 +52,7 @@ export default function LoginPage() {
         <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-blue-950 mb-2">
+            <h1 className="text-3xl font-bold text-slate-800 mb-2">
               NextDesk
             </h1>
             <p className="text-gray-600 text-sm">IT Help Desk System</p>
@@ -75,7 +75,7 @@ export default function LoginPage() {
                 type="text"
                 placeholder="Enter your username"
                 required
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -89,7 +89,7 @@ export default function LoginPage() {
                 type="password"
                 placeholder="Enter your password"
                 required
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -97,7 +97,7 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full py-3 bg-blue-950 hover:bg-blue-900 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 px-6 bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={loading}
             >
               {loading ? "Loading..." : "Login"}
@@ -117,7 +117,7 @@ export default function LoginPage() {
           {/* Register Link */}
           <button
             type="button"
-            className="w-full py-2.5 border border-blue-950 text-blue-950 font-medium rounded-lg hover:bg-blue-50 transition-colors duration-200"
+            className="w-full py-4 px-6 border border-blue-950 text-blue-950 font-semibold rounded-xl hover:bg-blue-50 transition-colors duration-200"
             onClick={() => router.push("/auth/register")}
           >
             Create Account

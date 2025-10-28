@@ -76,7 +76,7 @@ export default function ProfileEmployeePage() {
         <div className="space-y-6">
           <button
             type="button"
-            className="text-white font-semibold py-4 px-6 w-full bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 rounded-xl transition-all"
+            className="text-white font-semibold py-4 px-6 w-full bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 rounded-xl "
             onClick={() => {
               router.push("/profileEmployee/change-password");
             }}

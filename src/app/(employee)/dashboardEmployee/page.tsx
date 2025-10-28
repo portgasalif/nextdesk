@@ -45,27 +45,27 @@ export default function DashboardEmployeePage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
-        return "bg-amber-100 text-amber-800";
+        return "bg-yellow-100 text-yellow-800";
       case "in-progress":
-        return "bg-sky-100 text-sky-800";
+        return "bg-blue-100 text-blue-800";
       case "completed":
-        return "bg-emerald-100 text-emerald-800";
+        return "bg-green-100 text-green-800";
       default:
-        return "bg-slate-100 text-slate-800";
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
     <div className="max-w-7xl mx-auto p-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-slate-700 to-slate-900 bg-clip-text text-transparent">
+        <h1 className="text-3xl font-bold mb-2 text-slate-800">
           My Requests
         </h1>
         <p className="text-slate-600">
           Track and manage your submitted requests
         </p>
       </div>
-      <div className="bg-white shadow-xl rounded-xl overflow-hidden border border-slate-200">
+      <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
         <table className="w-full text-center">
           <thead className="bg-gradient-to-r from-slate-800 to-slate-900">
             <tr>

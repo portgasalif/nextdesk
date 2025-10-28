@@ -57,7 +57,7 @@ export default function RegisterPage() {
         <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
           {/* Header */}
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-blue-950 mb-2">
+            <h1 className="text-3xl font-bold text-slate-800 mb-2">
               Create Account
             </h1>
           </div>
@@ -77,7 +77,7 @@ export default function RegisterPage() {
                 type="text"
                 placeholder="Enter your username"
                 value={username}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
@@ -91,7 +91,7 @@ export default function RegisterPage() {
                 type="text"
                 placeholder="Enter your full name"
                 value={name}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 onChange={(e) => setName(e.target.value)}
                 required
               />
@@ -104,7 +104,7 @@ export default function RegisterPage() {
               <select
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 required
               >
                 <option value="">Select your department</option>
@@ -124,7 +124,7 @@ export default function RegisterPage() {
                 type="password"
                 placeholder="Create a password"
                 value={password}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
@@ -138,7 +138,7 @@ export default function RegisterPage() {
                 type="password"
                 placeholder="Confirm your password"
                 value={confirmPassword}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
@@ -146,7 +146,7 @@ export default function RegisterPage() {
 
             <button
               type="submit"
-              className="w-full py-3 bg-blue-950 hover:bg-blue-900 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+              className="w-full py-4 px-6 bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
               disabled={loading}
             >
               {loading ? "Creating Account..." : "Create Account"}

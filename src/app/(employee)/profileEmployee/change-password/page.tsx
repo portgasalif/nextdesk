@@ -120,7 +120,7 @@ export default function ChangePassword() {
             <div className="space-y-4">
               <button
                 type="submit"
-                className="w-full py-3 bg-gradient-to-r from-blue-900 to-blue-950 rounded-xl font-semibold hover:from-blue-950 hover:to-blue-900 text-white"
+                className="w-full py-4 px-6 bg-gradient-to-r from-blue-900 to-blue-950 rounded-xl font-semibold hover:from-blue-950 hover:to-blue-900 text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={loading}
               >
                 {loading ? "Changing Password..." : "Change Password"}
