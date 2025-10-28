@@ -6,11 +6,12 @@ export default function NewRequestPage() {
   const [category, setCategory] = useState("");
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const userAccount = localStorage.getItem("user");
       if (!userAccount) {
@@ -41,6 +42,8 @@ export default function NewRequestPage() {
     } catch (error) {
       alert("An error occurred. Please try again.");
       console.error("Request submission error:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -88,9 +91,10 @@ export default function NewRequestPage() {
           />
           <button
             type="submit"
-            className="bg-blue-950 text-white py-2 rounded-md hover:bg-blue-800 transition-all duration-300 hover:shadow-lg transform hover:scale-105"
+            className="bg-blue-950 text-white py-2 rounded-md hover:bg-blue-800 transition-all duration-300 hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={loading}
           >
-            Submit Request
+            {loading ? "Submitting..." : "Submit Request"}
           </button>
         </form>
       </div>

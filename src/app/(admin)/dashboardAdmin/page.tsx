@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { MoonLoader } from "react-spinners";
 
 type Request = {
   id: number;
@@ -16,6 +17,8 @@ type Request = {
 
 export default function AdminDashboardPage() {
   const [requests, setRequests] = useState<Request[]>([]);
+  const [loading, setLoading] = useState<number | null>(null);
+  const [isFetching, setIsFetching] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -37,6 +40,8 @@ export default function AdminDashboardPage() {
         }
       } catch (error) {
         console.error("Failed to fetch requests:", error);
+      } finally {
+        setIsFetching(false);
       }
     };
     fetchRequests();
@@ -56,6 +61,7 @@ export default function AdminDashboardPage() {
   };
 
   const handleStatusChange = async (id: number, newStatus: string) => {
+    setLoading(id);
     try {
       const response = await fetch(`/api/requests/${id}`, {
         method: "PATCH",
@@ -74,6 +80,8 @@ export default function AdminDashboardPage() {
     } catch (error) {
       console.error("Error updating status:", error);
       alert("Error updating status");
+    } finally {
+      setLoading(null);
     }
   };
   return (
@@ -109,55 +117,68 @@ export default function AdminDashboardPage() {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
-            {requests.map((request, index) => (
-              <tr
-                key={request.id}
-                className="even:bg-gray-50 hover:bg-blue-50 transition-colors"
-              >
-                <td className="px-6 py-4 text-base text-gray-900">
-                  {index + 1}
-                </td>
-                <td className="px-6 py-4 text-base text-gray-900 font-medium">
-                  {request.user.name} <br />
-                  <span className="text-sm text-gray-500">
-                    {request.user.department}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-base text-gray-900">
-                  {request.subject}
-                </td>
-                <td className="px-6 py-4 text-base text-gray-900">
-                  {request.category}
-                </td>
-                <td className="px-6 py-4 text-base text-gray-900">
-                  {new Date(request.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-6 py-4 text-base text-gray-900">
-                  <span
-                    className={`px-2 py-1 rounded-full font-semibold text-base ${getStatusColor(
-                      request.status
-                    )}`}
-                  >
-                    {request.status}
-                  </span>
-                </td>
-                <td>
-                  <select
-                    value={request.status}
-                    onChange={(e) =>
-                      handleStatusChange(request.id, e.target.value)
-                    }
-                    className="border border-gray-300 rounded px-3 py-2 text-base"
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                  </select>
+          {isFetching ? (
+            <tbody>
+              <tr>
+                <td colSpan={7} className="py-16">
+                  <div className="flex justify-center items-center">
+                    <MoonLoader color="#1e3a8a" size={60} />
+                  </div>
                 </td>
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+          ) : (
+            <tbody className="divide-y divide-gray-200">
+              {requests.map((request, index) => (
+                <tr
+                  key={request.id}
+                  className="even:bg-gray-50 hover:bg-blue-50 transition-colors"
+                >
+                  <td className="px-6 py-4 text-base text-gray-900">
+                    {index + 1}
+                  </td>
+                  <td className="px-6 py-4 text-base text-gray-900 font-medium">
+                    {request.user.name} <br />
+                    <span className="text-sm text-gray-500">
+                      {request.user.department}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-base text-gray-900">
+                    {request.subject}
+                  </td>
+                  <td className="px-6 py-4 text-base text-gray-900">
+                    {request.category}
+                  </td>
+                  <td className="px-6 py-4 text-base text-gray-900">
+                    {new Date(request.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 text-base text-gray-900">
+                    <span
+                      className={`px-2 py-1 rounded-full font-semibold text-base ${getStatusColor(
+                        request.status
+                      )}`}
+                    >
+                      {request.status}
+                    </span>
+                  </td>
+                  <td>
+                    <select
+                      value={request.status}
+                      onChange={(e) =>
+                        handleStatusChange(request.id, e.target.value)
+                      }
+                      className="border border-gray-300 rounded px-3 py-2 text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={loading === request.id}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="in-progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
     </div>
