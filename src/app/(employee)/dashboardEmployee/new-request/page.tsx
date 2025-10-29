@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function NewRequestPage() {
   const [category, setCategory] = useState("");
@@ -15,7 +16,7 @@ export default function NewRequestPage() {
     try {
       const userAccount = localStorage.getItem("user");
       if (!userAccount) {
-        alert("User not logged in");
+        toast.error("User not logged in");
         router.push("/");
         return;
       }
@@ -34,13 +35,14 @@ export default function NewRequestPage() {
       });
       const data = await response.json();
       if (response.ok) {
+        toast.success("Request submitted successfully!");
         router.push("/dashboardEmployee");
       } else {
-        alert(data.message || "Request submission failed");
+        toast.error(data.message || "Request submission failed");
         console.error("Request submission failed:", data.message);
       }
     } catch (error) {
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
       console.error("Request submission error:", error);
     } finally {
       setLoading(false);

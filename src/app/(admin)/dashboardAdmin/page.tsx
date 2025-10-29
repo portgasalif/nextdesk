@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 type Request = {
   id: number;
@@ -26,7 +27,7 @@ export default function AdminDashboardPage() {
       try {
         const userAccount = localStorage.getItem("user");
         if (!userAccount) {
-          alert("User not logged in");
+          toast.error("User not logged in");
           router.push("/");
           return;
         }
@@ -74,12 +75,13 @@ export default function AdminDashboardPage() {
             request.id === id ? { ...request, status: newStatus } : request
           )
         );
+        toast.success("Status updated successfully!");
       } else {
-        alert("Failed to update status");
+        toast.error("Failed to update status");
       }
     } catch (error) {
       console.error("Error updating status:", error);
-      alert("Error updating status");
+      toast.error("Error updating status");
     } finally {
       setLoading(null);
     }

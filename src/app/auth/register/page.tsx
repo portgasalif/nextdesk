@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -9,21 +10,20 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [department, setDepartment] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+
     if (!username || !password || !name || !department) {
-      setError("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       setLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      toast.error("Passwords do not match.");
       setLoading(false);
       return;
     }
@@ -41,11 +41,14 @@ export default function RegisterPage() {
         localStorage.setItem("user", JSON.stringify(data.user));
 
         router.push("/dashboardEmployee");
+        toast.success(
+          `Registration successful! Welcome ${data.user.name} to NextDesk.`
+        );
       } else {
-        setError(data.message || "Registration failed");
+        toast.error(data.message || "Registration failed");
       }
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
       console.error("Registration error:", error);
     } finally {
       setLoading(false);
@@ -61,13 +64,7 @@ export default function RegisterPage() {
               Create Account
             </h1>
           </div>
-
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg mb-6">
-              <p className="text-sm">{error}</p>
-            </div>
-          )}
-
+          {/* Form */}
           <form className="space-y-4" onSubmit={handleRegister}>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -154,7 +151,9 @@ export default function RegisterPage() {
           </form>
 
           <div className="text-center mt-6">
-            <span className="text-sm text-gray-600">Already have an account? </span>
+            <span className="text-sm text-gray-600">
+              Already have an account?{" "}
+            </span>
             <button
               type="button"
               onClick={() => router.push("/")}

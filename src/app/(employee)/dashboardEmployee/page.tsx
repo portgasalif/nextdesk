@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 type Request = {
   id: number;
@@ -21,7 +22,7 @@ export default function DashboardEmployeePage() {
       try {
         const userAccount = localStorage.getItem("user");
         if (!userAccount) {
-          alert("User not logged in");
+          toast.error("User not logged in");
           router.push("/");
           return;
         }

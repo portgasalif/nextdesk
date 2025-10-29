@@ -1,19 +1,19 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+
     if (!username || !password) {
-      setError("Please enter both username and password.");
+      toast.error("Please enter both username and password.");
       setLoading(false);
       return;
     }
@@ -32,14 +32,16 @@ export default function LoginPage() {
 
         if (data.user.role === "admin") {
           router.push("/dashboardAdmin");
+          toast.success("Login successful! Welcome Admin.");
         } else {
           router.push("/dashboardEmployee");
+          toast.success(`Login successful! Welcome ${data.user.name}.`);
         }
       } else {
-        setError(data.message || "Login failed");
+        toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
       console.error("Login error:", error);
     } finally {
       setLoading(false);
@@ -52,19 +54,9 @@ export default function LoginPage() {
         <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-slate-800 mb-2">
-              NextDesk
-            </h1>
+            <h1 className="text-3xl font-bold text-slate-800 mb-2">NextDesk</h1>
             <p className="text-gray-600 text-sm">IT Help Desk System</p>
           </div>
-
-          {/* Error Alert */}
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg mb-6">
-              <p className="text-sm">{error}</p>
-            </div>
-          )}
-
           {/* Form */}
           <form className="space-y-5" onSubmit={handleLogin}>
             <div>
