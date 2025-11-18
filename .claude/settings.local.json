@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node -e \"const bcrypt = require(''bcryptjs''); bcrypt.hash(''admin123'', 10).then(hash => console.log(''Hash for admin123:'', hash));\")"
+      "Bash(node -e \"const bcrypt = require(''bcryptjs''); bcrypt.hash(''admin123'', 10).then(hash => console.log(''Hash for admin123:'', hash));\")",
+      "Bash(git show 31af731:src/app/(employee)/dashboardEmployee/layout.tsx)",
+      "Bash(cd /Users/aliffachrela/Documents/Developer\\ -\\ Local/nextdesk && git show:*)"
     ],
     "deny": [],
     "ask": []
