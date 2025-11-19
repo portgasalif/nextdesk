@@ -18,12 +18,6 @@ export default function EmployeeNavbar() {
           Dashboard
         </Link>
         <Link
-          href="/dashboardEmployee/new-request"
-          className="hover:text-blue-500 transition-colors duration-200 "
-        >
-          New Request
-        </Link>
-        <Link
           href="/leaveRequest"
           className="hover:text-blue-500 transition-colors duration-200 "
         >

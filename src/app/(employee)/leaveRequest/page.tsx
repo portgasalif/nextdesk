@@ -30,7 +30,7 @@ export default function LeaveRequestPage() {
           leaveType: "Sakit",
           startDate: "2024-12-20",
           endDate: "2024-12-21",
-          status: "in-progress",
+          status: "pending",
         },
         {
           id: 3,
@@ -47,7 +47,7 @@ export default function LeaveRequestPage() {
     switch (status) {
       case "rejected":
         return "bg-red-100 text-red-800";
-      case "in-progress":
+      case "pending":
         return "bg-blue-100 text-blue-800";
       case "approved":
         return "bg-green-100 text-green-800";
@@ -71,7 +71,7 @@ export default function LeaveRequestPage() {
           <button
             type="button"
             className="text-white font-semibold py-3 px-5 w-full bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 rounded-xl cursor-pointer "
-            onClick={() => router.push("/leaveRequest/new-leave")}
+            onClick={() => router.push("/leaveRequest/new-leave-request")}
           >
             New Leave Request
           </button>

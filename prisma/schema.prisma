@@ -9,16 +9,19 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  username   String   @unique
-  password   String
-  name       String
-  role       String   @default("employee")
-  department String?
-  createdAt  DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  username         String   @unique
+  password         String
+  name             String
+  role             String   @default("employee")
+  department       String?
+  createdAt        DateTime @default(now())
+  annualLeaveQuota Int      @default(12)
 
-  requests   Request[] @relation("UserRequests")
-  assigned   Request[] @relation("AdminAssigned")
+  requests       Request[] @relation("UserRequests")
+  assigned       Request[] @relation("AdminAssigned")
+  leaves         Leave[]   @relation("UserLeaves")
+  approvedLeaves Leave[]   @relation("ApprovedLeaves")
 }
 
 model Request {
@@ -30,11 +33,31 @@ model Request {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  userId      Int
-  user        User     @relation("UserRequests", fields: [userId], references: [id])
+  userId Int
+  user   User @relation("UserRequests", fields: [userId], references: [id])
 
-  assignedTo  Int?
-  admin       User?    @relation("AdminAssigned", fields: [assignedTo], references: [id])
+  assignedTo Int?
+  admin      User? @relation("AdminAssigned", fields: [assignedTo], references: [id])
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Leave {
+  id        Int      @id @default(autoincrement())
+  leaveType String
+  startDate DateTime
+  endDate   DateTime
+  reason    String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation("UserLeaves", fields: [userId], references: [id])
+
+  approvedBy Int?
+  approver   User? @relation("ApprovedLeaves", fields: [approvedBy], references: [id])
 
   @@index([userId])
   @@index([status])

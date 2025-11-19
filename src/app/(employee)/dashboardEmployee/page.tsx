@@ -58,13 +58,24 @@ export default function DashboardEmployeePage() {
 
   return (
     <div className="max-w-7xl mx-auto p-8">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-slate-800">
-          My Requests
-        </h1>
-        <p className="text-slate-600">
-          Track and manage your submitted requests
-        </p>
+      <div className="mb-6 flex justify-between items-end">
+        <div>
+          <h1 className="text-3xl font-bold mb-2 text-slate-800">
+            My Requests
+          </h1>
+          <p className="text-slate-600">
+            Track and manage your submitted requests
+          </p>
+        </div>
+        <div>
+          <button
+            type="button"
+            className="text-white font-semibold py-3 px-5 w-full bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 rounded-xl cursor-pointer "
+            onClick={() => router.push("/dashboardEmployee/new-request")}
+          >
+            New Leave Request
+          </button>
+        </div>
       </div>
       <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
         <table className="w-full text-center">
