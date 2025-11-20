@@ -46,3 +46,32 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET(request: Request) {
+  try {
+    const url = new URL(request.url);
+    const userId = url.searchParams.get("userId");
+    let leaves;
+    if (userId) {
+      leaves = await prisma.leave.findMany({
+        where: { userId: parseInt(userId) },
+        include: { user: true },
+      });
+    } else {
+      leaves = await prisma.leave.findMany({
+        include: { user: true },
+      });
+    }
+    return NextResponse.json({ leaves });
+  } catch (error) {
+    console.error("Leave creation error:", error);
+    return NextResponse.json(
+      {
+        message: "Internal server error",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
