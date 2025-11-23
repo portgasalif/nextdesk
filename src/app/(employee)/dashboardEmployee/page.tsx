@@ -73,7 +73,7 @@ export default function DashboardEmployeePage() {
             className="text-white font-semibold py-3 px-5 w-full bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 rounded-xl cursor-pointer "
             onClick={() => router.push("/dashboardEmployee/new-request")}
           >
-            New Leave Request
+            New Request
           </button>
         </div>
       </div>
