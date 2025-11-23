@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function NewLeaveRequestPage() {
   const [leaveType, setLeaveType] = useState("");
@@ -10,8 +11,49 @@ export default function NewLeaveRequestPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
+    if (new Date(startDate) > new Date(endDate)) {
+      toast.error("Wrong Date!");
+      setLoading(false);
+      return;
+    }
+    try {
+      const userAccount = localStorage.getItem("user");
+      if (!userAccount) {
+        toast.error("User not logged in ");
+        router.push("/");
+        return;
+      }
+      const user = JSON.parse(userAccount);
+      const response = await fetch("/api/leaves", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          leaveType,
+          startDate,
+          endDate,
+          reason,
+          userId: user.id,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        toast.success("Berhasil di submit");
+        router.push("/leaveRequest");
+      } else {
+        toast.error(data.message || "Request submission failed");
+        console.error("Request submission failed:", data.message);
+      }
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="min-h-screen px-4 py-8">
@@ -57,6 +99,7 @@ export default function NewLeaveRequestPage() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
+                required
               />
             </div>
             <div className="flex-1">
@@ -73,6 +116,7 @@ export default function NewLeaveRequestPage() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
+                required
               />
             </div>
           </div>
@@ -92,7 +136,6 @@ export default function NewLeaveRequestPage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              required
             />
           </div>
           <div>
