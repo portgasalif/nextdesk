@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 type Leave = {
   id: number;
@@ -16,32 +17,34 @@ export default function LeaveRequestPage() {
   const router = useRouter();
 
   useEffect(() => {
-    setTimeout(() => {
-      setLeaves([
-        {
-          id: 1,
-          leaveType: "Cuti Tahunan",
-          startDate: "2024-01-15",
-          endDate: "2024-01-17",
-          status: "approved",
-        },
-        {
-          id: 2,
-          leaveType: "Sakit",
-          startDate: "2024-12-20",
-          endDate: "2024-12-21",
-          status: "pending",
-        },
-        {
-          id: 3,
-          leaveType: "Darurat",
-          startDate: "2023-11-10",
-          endDate: "2023-11-10",
-          status: "rejected",
-        },
-      ]);
-      setIsFetching(false);
-    }, 1000);
+    const fetchRequests = async () => {
+      try {
+        const userAccount = localStorage.getItem("user");
+
+        if (!userAccount) {
+          toast.error("User not logged in");
+          router.push("/");
+          return;
+        }
+        const user = JSON.parse(userAccount);
+        console.log("User object:", user); // Cek struktur user
+        console.log("User ID:", user.id); // Cek value user.id
+        console.log("User ID type:", typeof user.id); // Cek tipe data
+        const response = await fetch(`/api/leaves?userId=${user.id}`);
+        const data = await response.json();
+        if (response.ok) {
+          setLeaves(data.leaves);
+        } else {
+          console.error("Failed to fetch", data.message);
+        }
+      } catch (error) {
+        console.error("Failed to fetch requests:", error);
+        toast.error("Failed to load leave requests");
+      } finally {
+        setIsFetching(false);
+      }
+    };
+    fetchRequests();
   }, []);
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -104,6 +107,18 @@ export default function LeaveRequestPage() {
                 <td colSpan={5} className="py-16">
                   <div className="flex justify-center items-center">
                     <MoonLoader color="#1e3a8a" size={60} />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          ) : leaves.length === 0 ? (
+            <tbody>
+              <tr>
+                <td colSpan={5} className="py-16">
+                  <div className="">
+                    <h1 className="font-semibold text-2xl">
+                      No leave requests yet
+                    </h1>
                   </div>
                 </td>
               </tr>
