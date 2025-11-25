@@ -38,7 +38,7 @@ export default function LoginPage() {
           toast.success(`Login successful! Welcome ${data.user.name}.`);
         }
       } else {
-        toast.error("An error occurred. Please try again.");
+        toast.error(data.message || "An error occurred. Please try again.");
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");

@@ -50,7 +50,8 @@ export default function NewLeaveRequestPage() {
         console.error("Request submission failed:", data.message);
       }
     } catch (error) {
-      toast.error((error as Error).message);
+      toast.error("An error occurred. Please try again.");
+      console.error("Leave request error:", error);
     } finally {
       setLoading(false);
     }

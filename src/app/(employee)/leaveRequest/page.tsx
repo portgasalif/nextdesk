@@ -33,6 +33,7 @@ export default function LeaveRequestPage() {
           setLeaves(data.leaves);
         } else {
           console.error("Failed to fetch", data.message);
+          toast.error(data.message || "Failed to load leave requests");
         }
       } catch (error) {
         console.error("Failed to fetch requests:", error);
