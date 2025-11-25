@@ -27,9 +27,6 @@ export default function LeaveRequestPage() {
           return;
         }
         const user = JSON.parse(userAccount);
-        console.log("User object:", user); // Cek struktur user
-        console.log("User ID:", user.id); // Cek value user.id
-        console.log("User ID type:", typeof user.id); // Cek tipe data
         const response = await fetch(`/api/leaves?userId=${user.id}`);
         const data = await response.json();
         if (response.ok) {
@@ -58,6 +55,13 @@ export default function LeaveRequestPage() {
       default:
         return "bg-gray-100 text-gray-800";
     }
+  };
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
   };
   return (
     <div className="max-w-7xl mx-auto p-8">
@@ -88,7 +92,7 @@ export default function LeaveRequestPage() {
                 No
               </th>
               <th className="px-6 py-4 text-sm uppercase font-semibold tracking-wider text-white">
-                Leaves Type
+                Leave Type
               </th>
               <th className="px-6 py-4 text-sm uppercase font-semibold tracking-wider text-white">
                 Start Date
@@ -137,10 +141,10 @@ export default function LeaveRequestPage() {
                     {leave.leaveType}
                   </td>
                   <td className="px-6 py-4 text-base text-slate-700 ">
-                    {leave.startDate}
+                    {formatDate(leave.startDate)}
                   </td>
                   <td className="px-6 py-4 text-base text-slate-700 ">
-                    {leave.endDate}
+                    {formatDate(leave.endDate)}
                   </td>
                   <td className="px-6 py-4 text-base text-slate-700 ">
                     {

@@ -125,7 +125,7 @@ export default function DashboardEmployeePage() {
                     {request.category}
                   </td>
                   <td className="px-6 py-4 text-base text-slate-700">
-                    {new Date(request.createdAt).toLocaleDateString("en-US", {
+                    {new Date(request.createdAt).toLocaleDateString("id-ID", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
