@@ -1,6 +1,7 @@
 "use client";
+import Link from "next/link";
+
 export default function EmployeeNavbar() {
- 
   return (
     <nav className="bg-white shadow border-b flex justify-between items-center p-4 h-16">
       <h2
@@ -10,24 +11,24 @@ export default function EmployeeNavbar() {
         NextDesk
       </h2>
       <div className="space-x-4 flex items-center text-blue-900">
-        <a
+        <Link
           href="/dashboardEmployee"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
           Dashboard
-        </a>
-        <a
-          href="/dashboardEmployee/new-request"
+        </Link>
+        <Link
+          href="/leaveRequest"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
-          New Request
-        </a>
-        <a
+          My Leaves
+        </Link>
+        <Link
           href="/profileEmployee"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
           Profile
-        </a>
+        </Link>
       </div>
     </nav>
   );

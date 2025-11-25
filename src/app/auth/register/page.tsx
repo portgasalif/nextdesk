@@ -67,11 +67,15 @@ export default function RegisterPage() {
           {/* Form */}
           <form className="space-y-4" onSubmit={handleRegister}>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="username-input"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Username
               </label>
               <input
                 type="text"
+                id="username-input"
                 placeholder="Enter your username"
                 value={username}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -81,11 +85,15 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="fullname-input"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Full Name
               </label>
               <input
                 type="text"
+                id="fullname-input"
                 placeholder="Enter your full name"
                 value={name}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -95,10 +103,14 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="department-select"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Department
               </label>
               <select
+                id="department-select"
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -114,11 +126,15 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="password-input"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Password
               </label>
               <input
                 type="password"
+                id="password-input"
                 placeholder="Create a password"
                 value={password}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -128,11 +144,15 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="confirm-password-input"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Confirm Password
               </label>
               <input
                 type="password"
+                id="confirm-password-input"
                 placeholder="Confirm your password"
                 value={confirmPassword}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -152,7 +172,7 @@ export default function RegisterPage() {
 
           <div className="text-center mt-6">
             <span className="text-sm text-gray-600">
-              Already have an account?{" "}
+              Already have an account?
             </span>
             <button
               type="button"

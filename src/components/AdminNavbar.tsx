@@ -1,5 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 export default function AdminNavbar() {
   const router = useRouter();
   const handleLogout = () => {
@@ -15,12 +17,12 @@ export default function AdminNavbar() {
         NextDesk Admin
       </h2>
       <div className="space-x-4 flex items-center text-blue-900">
-        <a
+        <Link
           href="/dashboardAdmin"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
           Dashboard
-        </a>
+        </Link>
         <span
           className="text-gray-400 cursor-not-allowed"
           title="Feature coming soon"

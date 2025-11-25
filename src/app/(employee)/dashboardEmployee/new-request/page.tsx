@@ -57,10 +57,15 @@ export default function NewRequestPage() {
         </h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label className="block font-medium text-slate-900 mb-2">
+            <label
+              htmlFor="category"
+              className="block font-medium text-slate-900 mb-2"
+            >
               Category
             </label>
             <select
+              id="category"
+              name="category"
               onChange={(e) => setCategory(e.target.value)}
               value={category}
               className="w-full px-4 py-2 border rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500 border-gray-300"
@@ -77,10 +82,15 @@ export default function NewRequestPage() {
           </div>
 
           <div>
-            <label className="block font-medium text-slate-900 mb-2">
+            <label
+              htmlFor="subject"
+              className="block font-medium text-slate-900 mb-2"
+            >
               Subject
             </label>
             <input
+              id="subject"
+              name="subject"
               type="text"
               placeholder="Brief description of your request"
               required
@@ -89,12 +99,16 @@ export default function NewRequestPage() {
               onChange={(e) => setSubject(e.target.value)}
             />
           </div>
-
           <div>
-            <label className="block font-medium text-slate-900 mb-2">
+            <label
+              htmlFor="description"
+              className="block font-medium text-slate-900 mb-2"
+            >
               Description
             </label>
             <textarea
+              id="description"
+              name="description"
               placeholder="Provide detailed information about your request"
               required
               rows={4}
@@ -103,7 +117,6 @@ export default function NewRequestPage() {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-
           <div>
             <button
               type="submit"
