@@ -89,7 +89,9 @@ export default function AdminDashboardPage() {
   return (
     <div className="max-w-7xl mx-auto p-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-slate-800">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-2 text-slate-800">
+          Employees Requests
+        </h1>
         <p className="text-slate-600">Manage all employee requests</p>
       </div>
       <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">

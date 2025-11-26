@@ -21,20 +21,15 @@ export default function AdminNavbar() {
           href="/dashboardAdmin"
           className="hover:text-blue-500 transition-colors duration-200 "
         >
-          Dashboard
+          Requests
         </Link>
-        <span
-          className="text-gray-400 cursor-not-allowed"
-          title="Feature coming soon"
+        <Link
+          className="hover:text-blue-500 transition-colors duration-200 "
+          href="/leaveManagement"
         >
-          Reports
-        </span>
-        <span
-          className="text-gray-400 cursor-not-allowed"
-          title="Feature coming soon"
-        >
-          Settings
-        </span>
+          Leaves
+        </Link>
+
         <button
           onClick={handleLogout}
           className="px-3 py-1.5 text-sm border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-semibold rounded-lg transition-all duration-200"
