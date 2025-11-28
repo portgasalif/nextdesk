@@ -20,6 +20,7 @@ type Leave = {
 export default function LeaveManagement() {
   const [leaves, setLeaves] = useState<Leave[]>([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [loading, setLoading] = useState<number | null>(null);
   const router = useRouter();
 
   const formatDate = (dateString: string) => {
@@ -32,14 +33,46 @@ export default function LeaveManagement() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
+      case "rejected":
+        return "bg-red-100 text-red-800";
       case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "in-progress":
         return "bg-blue-100 text-blue-800";
-      case "completed":
+      case "approved":
         return "bg-green-100 text-green-800";
       default:
         return "bg-gray-100 text-gray-800";
+    }
+  };
+  const handleStatusChange = async (id: number, newStatus: string) => {
+    setLoading(id);
+    const userAccount = localStorage.getItem("user");
+    try {
+      const response = await fetch(`/api/leaves/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          status: newStatus,
+          approvedBy:
+            newStatus === "approved" ? JSON.parse(userAccount!).id : null,
+        }),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setLeaves((prevLeaves) =>
+          prevLeaves.map((leave) =>
+            leave.id === id ? { ...leave, status: newStatus } : leave
+          )
+        );
+        toast.success("Leave status updated successfully");
+      } else {
+        toast.error(data.message || "Failed to update leave status");
+      }
+    } catch (error) {
+      console.error("Failed to update status:", error);
+      toast.error("Failed to update status");
+    } finally {
+      setLoading(null);
     }
   };
   useEffect(() => {
@@ -108,7 +141,7 @@ export default function LeaveManagement() {
           {isFetching ? (
             <tbody>
               <tr>
-                <td colSpan={6} className="py-16">
+                <td colSpan={7} className="py-16">
                   <div className="flex justify-center items-center">
                     <MoonLoader color="#1e3a8a" size={60} />
                   </div>
@@ -144,7 +177,20 @@ export default function LeaveManagement() {
                     {leave.reason}
                   </td>
                   <td className="px-6 py-4 text-base text-gray-900 font-medium">
-                    {leave.status}
+                    <select
+                      value={leave.status}
+                      onChange={(e) =>
+                        handleStatusChange(leave.id, e.target.value)
+                      }
+                      className={`border border-gray-300 rounded px-3 py-2 ${getStatusColor(
+                        leave.status
+                      )} disabled:cursor-not-allowed`}
+                      disabled={loading === leave.id}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="approved">Approved</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
                   </td>
                 </tr>
               ))}
