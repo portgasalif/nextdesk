@@ -59,22 +59,21 @@ export default function ChangePassword() {
 
   return (
     <div className="min-h-screen px-4 py-8 ">
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-xl border border-slate-200 p-8">
+        <button
+          type="button"
+          className="font-semibold py-2 px-4 bg-white border-2 border-gray-300 rounded-xl hover:bg-gray-100 mb-6"
+          onClick={() => router.push("/profileEmployee")}
+        >
+          Back
+        </button>
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2 text-slate-800">
             Change Password
           </h1>
           <p className="text-slate-600">Update your account password</p>
         </div>
-        <button
-          type="button"
-          className="font-semibold py-3 px-6 bg-white border-2 border-gray-300 rounded-xl hover:bg-gray-100"
-          onClick={() => router.push("/profileEmployee")}
-        >
-          Back
-        </button>
-        <div className="bg-white rounded-xl shadow-lg p-8 border-gray-100">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="text-gray-700 font-medium mb-2 text-lg block">
                 Current Password
@@ -121,7 +120,6 @@ export default function ChangePassword() {
               </button>
             </div>
           </form>
-        </div>
       </div>
     </div>
   );

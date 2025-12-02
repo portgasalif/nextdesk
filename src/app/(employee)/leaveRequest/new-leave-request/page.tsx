@@ -59,6 +59,13 @@ export default function NewLeaveRequestPage() {
   return (
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-xl border border-slate-200 p-8">
+        <button
+          type="button"
+          className="font-semibold py-2 px-4 bg-white border-2 border-gray-300 rounded-xl hover:bg-gray-100 mb-6"
+          onClick={() => router.push("/leaveRequest")}
+        >
+          Back
+        </button>
         <h1 className="text-3xl font-bold mb-6 text-center text-slate-800">
           Leave Request Page
         </h1>
