@@ -1,8 +1,8 @@
 # 🎫 NextDesk - IT Help Desk System
 
-Sistem IT Help Desk yang dibangun dengan Next.js untuk mengelola tiket dan permintaan layanan IT.
+Modern IT help desk ticketing system for managing support requests and leave approvals. Built with Next.js 15, TypeScript, and PostgreSQL.
 
-## 📋 Fitur
+## 📋 Features
 
 ### 👥 Employee
 - Submit new IT support tickets
@@ -24,7 +24,40 @@ Sistem IT Help Desk yang dibangun dengan Next.js untuk mengelola tiket dan permi
 - **Database**: PostgreSQL + Prisma ORM
 - **Styling**: Tailwind CSS
 - **Language**: TypeScript
-- **UI Components**: Custom components dengan Tailwind
+- **UI Components**: Custom components with Tailwind
+
+## 🚀 Setup
+
+### Prerequisites
+- Node.js 18+
+- PostgreSQL
+
+### Installation
+
+```bash
+# Clone repo
+git clone https://github.com/portgasalif/nextdesk.git
+cd nextdesk
+
+# Install dependencies
+npm install
+
+# Setup environment variables
+cp .env.example .env
+# Edit .env with your database URL
+
+# Run database migrations
+npx prisma migrate dev
+
+# Start dev server
+npm run dev
+```
+
+### Environment Variables
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/nextdesk"
+```
 
 ## 📝 User Flow
 
@@ -37,3 +70,5 @@ Sistem IT Help Desk yang dibangun dengan Next.js untuk mengelola tiket dan permi
 ## 🔧 Development
 
 This project uses Next.js App Router with route groups to separate employee and admin areas. Each area has its own layout and components based on role requirements.
+
+---
