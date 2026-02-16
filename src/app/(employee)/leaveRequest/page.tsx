@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
+import { getLeaveStatusColor } from "@/lib/utils/statusHelpers";
 import toast from "react-hot-toast";
 
 type Leave = {
@@ -44,19 +45,7 @@ export default function LeaveRequestPage() {
     };
     fetchRequests();
   }, []);
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "rejected":
-        return "bg-red-100 text-red-800";
-      case "pending":
-        return "bg-blue-100 text-blue-800";
-      case "approved":
-        return "bg-green-100 text-green-800";
 
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("id-ID", {
       day: "numeric",
@@ -150,8 +139,8 @@ export default function LeaveRequestPage() {
                   <td className="px-6 py-4 text-base text-slate-700 ">
                     {
                       <span
-                        className={`px-3 py-1.5 rounded-full font-semibold text-sm ${getStatusColor(
-                          leave.status
+                        className={`px-3 py-1.5 rounded-full font-semibold text-sm ${getLeaveStatusColor(
+                          leave.status,
                         )}`}
                       >
                         {leave.status}

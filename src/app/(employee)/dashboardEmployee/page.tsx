@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
 import toast from "react-hot-toast";
+import { getRequestStatusColor } from "@/lib/utils/statusHelpers";
 
 type Request = {
   id: number;
@@ -42,19 +43,6 @@ export default function DashboardEmployeePage() {
     };
     fetchRequests();
   }, [router]);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "in-progress":
-        return "bg-blue-100 text-blue-800";
-      case "completed":
-        return "bg-green-100 text-green-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
 
   return (
     <div className="max-w-7xl mx-auto p-8">
@@ -133,8 +121,8 @@ export default function DashboardEmployeePage() {
                   </td>
                   <td className="px-6 py-4 text-base">
                     <span
-                      className={`px-3 py-1.5 rounded-full font-semibold text-sm ${getStatusColor(
-                        request.status
+                      className={`px-3 py-1.5 rounded-full font-semibold text-sm ${getRequestStatusColor(
+                        request.status,
                       )}`}
                     >
                       {request.status}
