@@ -1,9 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function AdminNavbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const handleLogout = () => {
     localStorage.removeItem("user");
     router.push("/");
@@ -19,12 +20,12 @@ export default function AdminNavbar() {
       <div className="space-x-4 flex items-center text-blue-900">
         <Link
           href="/dashboardAdmin"
-          className="hover:text-blue-500 transition-colors duration-200 "
+          className={`hover:text-blue-500 transition-colors duration-200 ${pathname === "/dashboardAdmin" ? "text-blue-500 font-semibold" : ""}`}
         >
           Requests
         </Link>
         <Link
-          className="hover:text-blue-500 transition-colors duration-200 "
+          className={`hover:text-blue-500 transition-colors duration-200 ${pathname === "/leaveManagement" ? "text-blue-500 font-semibold" : ""} `}
           href="/leaveManagement"
         >
           Leaves
