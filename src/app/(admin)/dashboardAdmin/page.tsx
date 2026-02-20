@@ -23,6 +23,17 @@ export default function AdminDashboardPage() {
   const [isFetching, setIsFetching] = useState(true);
   const router = useRouter();
 
+  const totalRequests = requests.length;
+  const pendingRequests = requests.filter(
+    (req) => req.status === "pending",
+  ).length;
+  const inProgressRequests = requests.filter(
+    (req) => req.status === "in-progress",
+  ).length;
+  const completedRequests = requests.filter(
+    (req) => req.status === "completed",
+  ).length;
+
   useEffect(() => {
     const fetchRequests = async () => {
       try {
@@ -80,7 +91,32 @@ export default function AdminDashboardPage() {
         <h1 className="text-3xl font-bold mb-2 text-slate-800">
           Employees Requests
         </h1>
-        <p className="text-slate-600">Manage all employee requests</p>
+        <p className="text-slate-600 mb-6">Manage all employee requests</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div className="border border-gray-100  shadow-sm p-4 text-center rounded-xl">
+            <p className="text-sm text-gray-600">Total Requests</p>
+            <p className="text-2xl font-bold text-gray-800">{totalRequests}</p>
+          </div>
+          <div className="border border-gray-100  shadow-sm p-4 text-center rounded-xl">
+            <p className="text-sm text-gray-600">Pending Requests</p>
+            <p className="text-2xl font-bold text-yellow-800">
+              {pendingRequests}
+            </p>
+          </div>
+          <div className="border border-gray-100  shadow-sm p-4 text-center rounded-xl">
+            <p className="text-sm text-gray-600">In Progress Requests</p>
+            <p className="text-2xl font-bold text-blue-800">
+              {inProgressRequests}
+            </p>
+          </div>
+
+          <div className="border border-gray-100  shadow-sm p-4 text-center rounded-xl">
+            <p className="text-sm text-gray-600">Completed Requests</p>
+            <p className="text-2xl font-bold text-green-800">
+              {completedRequests}
+            </p>
+          </div>
+        </div>
       </div>
       <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
         <table className="w-full text-center">

@@ -17,6 +17,12 @@ export default function DashboardEmployeePage() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   const router = useRouter();
+  const pendingRequests = requests.filter(
+    (req) => req.status === "pending",
+  ).length;
+  const completedRequests = requests.filter(
+    (req) => req.status === "completed",
+  ).length;
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -46,23 +52,36 @@ export default function DashboardEmployeePage() {
 
   return (
     <div className="max-w-7xl mx-auto p-8">
-      <div className="mb-6 flex justify-between items-end">
-        <div>
-          <h1 className="text-3xl font-bold mb-2 text-slate-800">
-            My Requests
-          </h1>
-          <p className="text-slate-600">
-            Track and manage your submitted requests
-          </p>
-        </div>
-        <div>
-          <button
-            type="button"
-            className="text-white font-semibold py-3 px-5 w-full bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 rounded-xl cursor-pointer "
-            onClick={() => router.push("/dashboardEmployee/new-request")}
-          >
-            New Request
-          </button>
+      <div className="mb-6 ">
+        <h1 className="text-3xl font-bold mb-2 text-slate-800">My Requests</h1>
+        <p className="text-slate-600 mb-6">
+          Track and manage your submitted requests
+        </p>
+
+        <div className="flex gap-4 justify-between items-center">
+          <div className="grid grid-cols-2 max-w-sm gap-4">
+            <div className="border border-gray-100 shadow-sm p-4  text-center rounded-xl">
+              <p className="text-sm text-gray-600">Pending Requests</p>
+              <p className="text-2xl  font-bold text-yellow-800">
+                {pendingRequests}
+              </p>
+            </div>
+            <div className="border border-gray-100 shadow-sm p-4  text-center rounded-xl">
+              <p className="text-sm text-gray-600">Completed Requests</p>
+              <p className="text-2xl  font-bold text-green-800">
+                {completedRequests}
+              </p>
+            </div>
+          </div>
+          <div>
+            <button
+              type="button"
+              className="text-white font-semibold py-3 px-5 w-full bg-gradient-to-r from-blue-900 to-blue-950 hover:from-blue-950 hover:to-blue-900 rounded-xl cursor-pointer "
+              onClick={() => router.push("/dashboardEmployee/new-request")}
+            >
+              New Request
+            </button>
+          </div>
         </div>
       </div>
       <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
