@@ -17,12 +17,6 @@ export default function DashboardEmployeePage() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   const router = useRouter();
-  const pendingRequests = requests.filter(
-    (req) => req.status === "pending",
-  ).length;
-  const completedRequests = requests.filter(
-    (req) => req.status === "completed",
-  ).length;
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -49,7 +43,15 @@ export default function DashboardEmployeePage() {
     };
     fetchRequests();
   }, [router]);
-
+  const pendingRequests = requests.filter(
+    (req) => req.status === "pending",
+  ).length;
+  const completedRequests = requests.filter(
+    (req) => req.status === "completed",
+  ).length;
+  const sortedRequests = [...requests].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
   return (
     <div className="max-w-7xl mx-auto p-8">
       <div className="mb-6 ">
@@ -117,7 +119,7 @@ export default function DashboardEmployeePage() {
             </tbody>
           ) : (
             <tbody className="divide-y divide-slate-200">
-              {requests.map((request, index) => (
+              {sortedRequests.map((request, index) => (
                 <tr
                   key={request.id}
                   className="even:bg-slate-50 hover:bg-slate-100 transition-all duration-200"

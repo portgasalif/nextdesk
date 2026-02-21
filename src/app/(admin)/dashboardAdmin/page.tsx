@@ -178,7 +178,11 @@ export default function AdminDashboardPage() {
                     {request.category}
                   </td>
                   <td className="px-6 py-4 text-base text-gray-900">
-                    {new Date(request.createdAt).toLocaleDateString()}
+                    {new Date(request.createdAt).toLocaleDateString("id-ID", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
                   </td>
                   <td className="px-6 py-4 text-base text-gray-900">
                     <span
