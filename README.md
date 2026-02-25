@@ -67,6 +67,31 @@ DATABASE_URL="postgresql://user:password@localhost:5432/nextdesk"
 3. **Admin Path**:
    - Dashboard overview → Manage all tickets → Update status → Approve leaves
 
+## ☁️ Cloud Deployment
+
+NextDesk is deployed on **[Vercel](https://vercel.com)** and is live at [https://nextdesk-cyan.vercel.app](https://nextdesk-cyan.vercel.app).
+
+### Cloud Capabilities
+
+| Capability | Provider | Details |
+|---|---|---|
+| **Hosting & CDN** | Vercel | Global edge network, automatic HTTPS, zero-config deploys |
+| **Serverless API** | Vercel Functions | Next.js API routes (`/api/*`) run as serverless functions |
+| **Database** | PostgreSQL (cloud) | Managed PostgreSQL; configure via `DATABASE_URL` and `DIRECT_URL` |
+| **CI/CD** | Vercel + GitHub | Automatic preview and production deployments on every push |
+
+### Environment Variables for Cloud
+
+Set the following environment variables in your Vercel project settings:
+
+```env
+DATABASE_URL="postgresql://user:password@host:5432/nextdesk?pgbouncer=true"
+DIRECT_URL="postgresql://user:password@host:5432/nextdesk"
+```
+
+> `DATABASE_URL` is used by Prisma at runtime (supports connection pooling via PgBouncer).
+> `DIRECT_URL` is used by Prisma for migrations and schema pushes.
+
 ## 🔧 Development
 
 This project uses Next.js App Router with route groups to separate employee and admin areas. Each area has its own layout and components based on role requirements.
