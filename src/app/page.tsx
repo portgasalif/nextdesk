@@ -48,6 +48,40 @@ export default function LoginPage() {
     }
   };
 
+  const handleDemoLogin = async (role: "admin" | "employee") => {
+    const demoUsername = role === "admin" ? "demo_admin" : "demo_employee";
+    const demoPassword = role === "admin" ? "admin123" : "user123";
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: demoUsername,
+          password: demoPassword,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        if (role === "admin") {
+          router.push("/dashboardAdmin");
+          toast.success("Demo login successful! Welcome Admin.");
+        } else {
+          router.push("/dashboardEmployee");
+          toast.success(`Demo login successful! Welcome ${data.user.name}.`);
+        }
+      } else {
+        toast.error(data.message || "Demo login failed. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An error occurred during demo login. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="w-full max-w-md mx-4">
@@ -108,9 +142,33 @@ export default function LoginPage() {
             <div className="h-px flex-1 bg-gray-200"></div>
           </div>
 
+          <div className="space-y-3">
+            <p className="text-xs text-center text-gray-400 font-medium uppercase tracking-wider">
+              Try Demo Account
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                className="py-2.5 px-4 bg-slate-50 border border-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-100 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                onClick={() => handleDemoLogin("employee")}
+                disabled={loading}
+              >
+                Employee
+              </button>
+              <button
+                type="button"
+                className="py-2.5 px-4 bg-slate-50 border border-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-100 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                onClick={() => handleDemoLogin("admin")}
+                disabled={loading}
+              >
+                Admin
+              </button>
+            </div>
+          </div>
+
           <button
             type="button"
-            className="w-full py-4 px-6 border border-blue-950 text-blue-950 font-semibold rounded-xl hover:bg-blue-50 transition-colors duration-200"
+            className="w-full mt-3 py-4 px-6 border border-blue-950 text-blue-950 font-semibold rounded-xl hover:bg-blue-50 transition-colors duration-200"
             onClick={() => router.push("/auth/register")}
           >
             Create Account

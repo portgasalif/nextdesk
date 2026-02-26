@@ -119,38 +119,46 @@ export default function DashboardEmployeePage() {
             </tbody>
           ) : (
             <tbody className="divide-y divide-slate-200">
-              {sortedRequests.map((request, index) => (
-                <tr
-                  key={request.id}
-                  className="even:bg-slate-50 hover:bg-slate-100 transition-all duration-200"
-                >
-                  <td className="px-6 py-4 text-base text-slate-900 font-medium">
-                    {index + 1}
-                  </td>
-                  <td className="px-6 py-4 text-base text-slate-900">
-                    {request.subject}
-                  </td>
-                  <td className="px-6 py-4 text-base text-slate-700">
-                    {request.category}
-                  </td>
-                  <td className="px-6 py-4 text-base text-slate-700">
-                    {new Date(request.createdAt).toLocaleDateString("id-ID", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </td>
-                  <td className="px-6 py-4 text-base">
-                    <span
-                      className={`px-3 py-1.5 rounded-full font-semibold text-sm ${getRequestStatusColor(
-                        request.status,
-                      )}`}
-                    >
-                      {request.status}
-                    </span>
+              {requests.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="py-16 text-center text-slate-400">
+                    <p className="text-lg font-medium">No request yet</p>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                sortedRequests.map((request, index) => (
+                  <tr
+                    key={request.id}
+                    className="even:bg-slate-50 hover:bg-slate-100 transition-all duration-200"
+                  >
+                    <td className="px-6 py-4 text-base text-slate-900 font-medium">
+                      {index + 1}
+                    </td>
+                    <td className="px-6 py-4 text-base text-slate-900">
+                      {request.subject}
+                    </td>
+                    <td className="px-6 py-4 text-base text-slate-700">
+                      {request.category}
+                    </td>
+                    <td className="px-6 py-4 text-base text-slate-700">
+                      {new Date(request.createdAt).toLocaleDateString("id-ID", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </td>
+                    <td className="px-6 py-4 text-base">
+                      <span
+                        className={`px-3 py-1.5 rounded-full font-semibold text-sm ${getRequestStatusColor(
+                          request.status,
+                        )}`}
+                      >
+                        {request.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           )}
         </table>
