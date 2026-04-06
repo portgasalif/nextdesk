@@ -21,6 +21,8 @@ export default function AdminDashboardPage() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState<number | null>(null);
   const [isFetching, setIsFetching] = useState(true);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const router = useRouter();
 
   const totalRequests = requests.length;
@@ -34,6 +36,16 @@ export default function AdminDashboardPage() {
     (req) => req.status === "completed",
   ).length;
 
+  const filteredRequests = requests.filter((req) => {
+    const searchTerm = search.toLowerCase();
+    const matchSearch =
+      req.user.name.toLowerCase().includes(searchTerm) ||
+      req.subject.toLowerCase().includes(searchTerm) ||
+      req.category.toLowerCase().includes(searchTerm);
+
+    const matchStatus = statusFilter === "all" || req.status === statusFilter;
+    return matchSearch && matchStatus;
+  });
   useEffect(() => {
     const fetchRequests = async () => {
       try {
@@ -118,6 +130,25 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       </div>
+      <div className=" flex gap-2 mb-4">
+        <input
+          type="text"
+          placeholder="Search by Name, subject, or category"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="p-2 border rounded-xl w-3/4 focus:ring-2 focus:ring-blue-500 focus:outline-none  "
+        />
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="p-2 border rounded-xl w-1/4 focus:ring-2 focus:ring-blue-500 focus:outline-none  "
+        >
+          <option value="all">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
       <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
         <table className="w-full text-center">
           <thead className="bg-blue-900">
@@ -157,7 +188,7 @@ export default function AdminDashboardPage() {
             </tbody>
           ) : (
             <tbody className="divide-y divide-gray-200">
-              {requests.map((request, index) => (
+              {filteredRequests.map((request, index) => (
                 <tr
                   key={request.id}
                   className="even:bg-gray-50 hover:bg-blue-50 transition-colors"
@@ -209,6 +240,15 @@ export default function AdminDashboardPage() {
                   </td>
                 </tr>
               ))}
+              {filteredRequests.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="py-16">
+                    <p className="py-12 text-center text-gray-500">
+                      No requests found matching "{search}"
+                    </p>
+                  </td>
+                </tr>
+              )}
             </tbody>
           )}
         </table>
