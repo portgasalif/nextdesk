@@ -22,8 +22,21 @@ export default function LeaveManagement() {
   const [leaves, setLeaves] = useState<Leave[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   const [loading, setLoading] = useState<number | null>(null);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const router = useRouter();
 
+  const filteredLeaves = leaves.filter((leave) => {
+    const searchTerm = search.toLowerCase();
+    const matchSearch =
+      (leave.user.name.toLowerCase().includes(searchTerm) ||
+        leave.leaveType.toLowerCase().includes(searchTerm) ||
+        leave.reason?.toLowerCase().includes(searchTerm)) ??
+      false;
+
+    const matchStatus = statusFilter === "all" || leave.status === statusFilter;
+    return matchSearch && matchStatus;
+  });
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("id-ID", {
       day: "numeric",
@@ -32,7 +45,6 @@ export default function LeaveManagement() {
     });
   };
 
- 
   const handleStatusChange = async (id: number, newStatus: string) => {
     setLoading(id);
     const userAccount = localStorage.getItem("user");
@@ -51,8 +63,8 @@ export default function LeaveManagement() {
       if (response.ok) {
         setLeaves((prevLeaves) =>
           prevLeaves.map((leave) =>
-            leave.id === id ? { ...leave, status: newStatus } : leave
-          )
+            leave.id === id ? { ...leave, status: newStatus } : leave,
+          ),
         );
         toast.success("Leave status updated successfully");
       } else {
@@ -100,7 +112,26 @@ export default function LeaveManagement() {
         </h1>
         <p>Review and approve leave requests from all employees</p>
       </div>
-      <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
+      <div className="flex gap-2 mb-4">
+        <input
+          type="text"
+          placeholder="Search by name, leave type , or reason"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="p-2 border rounded-xl w-3/4 focus:ring-2 focus:ring-blue-500 focus:outline-none  "
+        />
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="p-2 border rounded-xl w-1/4 focus:ring-2 focus:ring-blue-500 focus:outline-none  "
+        >
+          <option value="all">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <div className="bg-white shadow-lg rounded-xl overflow-x-auto border border-gray-100">
         <table className="w-full text-center">
           <thead className="bg-blue-900">
             <tr>
@@ -140,7 +171,7 @@ export default function LeaveManagement() {
             </tbody>
           ) : (
             <tbody className="divide-y divide-gray-200">
-              {leaves.map((leave, index) => (
+              {filteredLeaves.map((leave, index) => (
                 <tr
                   key={leave.id}
                   className="even:bg-gray-50 hover:bg-blue-50 transition-colors"
@@ -173,7 +204,7 @@ export default function LeaveManagement() {
                         handleStatusChange(leave.id, e.target.value)
                       }
                       className={`border border-gray-300 rounded px-3 py-2 ${getLeaveStatusColor(
-                        leave.status
+                        leave.status,
                       )} disabled:cursor-not-allowed`}
                       disabled={loading === leave.id}
                     >

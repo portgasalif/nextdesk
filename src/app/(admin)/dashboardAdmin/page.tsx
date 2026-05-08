@@ -149,7 +149,7 @@ export default function AdminDashboardPage() {
           <option value="completed">Completed</option>
         </select>
       </div>
-      <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
+      <div className="bg-white shadow-lg rounded-xl overflow-x-auto border border-gray-100">
         <table className="w-full text-center">
           <thead className="bg-blue-900">
             <tr>
