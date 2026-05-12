@@ -26,6 +26,16 @@ export default function LeaveManagement() {
   const [statusFilter, setStatusFilter] = useState("all");
   const router = useRouter();
 
+  const totalLeaves = leaves.length;
+  const pendingLeaves = leaves.filter(
+    (leave) => leave.status === "pending",
+  ).length;
+  const approvedLeaves = leaves.filter(
+    (leave) => leave.status === "approved",
+  ).length;
+  const rejectedLeaves = leaves.filter(
+    (leave) => leave.status === "rejected",
+  ).length;
   const filteredLeaves = leaves.filter((leave) => {
     const searchTerm = search.toLowerCase();
     const matchSearch =
@@ -110,7 +120,27 @@ export default function LeaveManagement() {
         <h1 className="text-3xl font-bold mb-2 text-slate-800">
           Employee Leaves
         </h1>
-        <p>Review and approve leave requests from all employees</p>
+        <p className="text-slate-600 mb-6">
+          Review and approve leave requests from all employees
+        </p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div className="border border-gray-100 shadow-sm p-4 text-center rounded-xl ">
+            <p className="text-sm text-gray-600">Total Leave Requests</p>
+            <p className="text-2xl font-bold text-gray-800">{totalLeaves}</p>
+          </div>
+          <div className="border border-gray-100 shadow-sm p-4 text-center rounded-xl ">
+            <p className="text-sm text-gray-600">Total Pending Requests</p>
+            <p className="text-2xl font-bold text-gray-800">{pendingLeaves}</p>
+          </div>
+          <div className="border border-gray-100 shadow-sm p-4 text-center rounded-xl ">
+            <p className="text-sm text-gray-600">Total Rejected Requests</p>
+            <p className="text-2xl font-bold text-gray-800">{rejectedLeaves}</p>
+          </div>
+          <div className="border border-gray-100 shadow-sm p-4 text-center rounded-xl ">
+            <p className="text-sm text-gray-600">Total Approved Requests</p>
+            <p className="text-2xl font-bold text-gray-800">{approvedLeaves}</p>
+          </div>
+        </div>
       </div>
       <div className="flex gap-2 mb-4">
         <input

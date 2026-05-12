@@ -9,6 +9,7 @@ type User = {
   department: string;
   role: string;
   createdAt: string;
+  annualLeaveQuota: number;
 };
 
 export default function ProfileEmployeePage() {
@@ -57,6 +58,14 @@ export default function ProfileEmployeePage() {
               </label>
               <p className="font-semibold text-gray-800 mt-1">
                 {user.department}
+              </p>
+            </div>
+            <div>
+              <label className="text-lg text-gray-500 uppercase tracking-wide font-semibold">
+                Leave Quota
+              </label>
+              <p className="font-semibold text-gray-800 mt-1">
+                {user.annualLeaveQuota}
               </p>
             </div>
             <div>
