@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type User = {
   id: number;
@@ -15,20 +16,52 @@ type User = {
 export default function ProfileEmployeePage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [usedDays, setusedDays] = useState<number | null>(null);
   const handleLogout = () => {
     localStorage.removeItem("user");
     router.push("/");
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (!userData) {
-      router.push("/");
-      return;
-    } else {
-      const user = JSON.parse(userData);
-      setUser(user);
-    }
+    const fetchData = async () => {
+      try {
+        const userData = localStorage.getItem("user");
+        if (!userData) {
+          router.push("/");
+          return;
+        } else {
+          const user = JSON.parse(userData);
+          setUser(user);
+          const res = await fetch(`/api/leaves?userId=${user.id}`);
+          const data = await res.json();
+          const filteredLeaves = data.leaves.filter((leave: any) => {
+            return (
+              leave.status === "approved" &&
+              new Date(leave.startDate).getFullYear() ===
+                new Date().getFullYear()
+            );
+          });
+
+          const totalUsedDays = filteredLeaves.reduce(
+            (total: number, leave: any) => {
+              const newDays =
+                new Date(leave.endDate).getTime() -
+                new Date(leave.startDate).getTime();
+              const newDaysResult = Math.floor(newDays / (1000 * 60 * 60 * 24));
+              console.log("newDays ms:", newDays);
+              console.log("newDaysResult:", newDaysResult);
+              return total + newDaysResult;
+            },
+            0,
+          );
+
+          setusedDays(totalUsedDays);
+        }
+      } catch (error) {
+        toast.error("Failed to load leave data");
+      }
+    };
+    fetchData();
   }, [router]);
 
   if (!user) return <div>Loading...</div>;
@@ -65,7 +98,8 @@ export default function ProfileEmployeePage() {
                 Leave Quota
               </label>
               <p className="font-semibold text-gray-800 mt-1">
-                {user.annualLeaveQuota}
+                {usedDays === null ? "..." : user.annualLeaveQuota - usedDays}{" "}
+                days remaining
               </p>
             </div>
             <div>
