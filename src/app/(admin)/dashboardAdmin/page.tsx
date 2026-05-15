@@ -15,6 +15,7 @@ type Request = {
   category: string;
   createdAt: string;
   status: string;
+  description: string;
 };
 
 export default function AdminDashboardPage() {
@@ -23,6 +24,7 @@ export default function AdminDashboardPage() {
   const [isFetching, setIsFetching] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const router = useRouter();
 
   const totalRequests = requests.length;
@@ -191,7 +193,8 @@ export default function AdminDashboardPage() {
               {filteredRequests.map((request, index) => (
                 <tr
                   key={request.id}
-                  className="even:bg-gray-50 hover:bg-blue-50 transition-colors"
+                  className="even:bg-gray-50 hover:bg-blue-50 transition-colors cursor-pointer"
+                  onClick={() => setSelectedRequest(request)}
                 >
                   <td className="px-6 py-4 text-base text-gray-900">
                     {index + 1}
@@ -253,6 +256,21 @@ export default function AdminDashboardPage() {
           )}
         </table>
       </div>
+      {selectedRequest && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center  ">
+          <div className="bg-white rounded-xl p-8 max-w-lg w-full mx-4">
+            <div className="flex justify-between ">
+              <h2 className="font-bold  ">Request Detail</h2>
+              <button
+                onClick={() => setSelectedRequest(null)}
+                className="border rounded-lg p-2 cursor-pointer"
+              >
+                X
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
