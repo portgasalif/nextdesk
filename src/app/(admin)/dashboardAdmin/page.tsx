@@ -227,7 +227,7 @@ export default function AdminDashboardPage() {
                       {request.status}
                     </span>
                   </td>
-                  <td>
+                  <td onClick={(e) => e.stopPropagation()}>
                     <select
                       value={request.status}
                       onChange={(e) =>
@@ -257,16 +257,81 @@ export default function AdminDashboardPage() {
         </table>
       </div>
       {selectedRequest && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center  ">
-          <div className="bg-white rounded-xl p-8 max-w-lg w-full mx-4">
+        <div
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center  "
+          onClick={() => setSelectedRequest(null)}
+        >
+          <div
+            className="bg-white rounded-xl p-8 max-w-lg w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex justify-between ">
-              <h2 className="font-bold  ">Request Detail</h2>
+              <div className="space-y-1">
+                <h2 className="font-bold  ">Request Detail</h2>
+                <p>
+                  {new Date(selectedRequest.createdAt).toLocaleDateString(
+                    "id-ID",
+                    {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    },
+                  )}
+                </p>
+              </div>
               <button
                 onClick={() => setSelectedRequest(null)}
-                className="border rounded-lg p-2 cursor-pointer"
+                className="border rounded-lg p-3 cursor-pointer"
               >
                 X
               </button>
+            </div>
+            <div className="space-y-3 mt-4">
+              <div>
+                <p className="font-semibold uppercase tracking-wide text-gray-500">
+                  Employee
+                </p>
+                <p className="text-gray-800 font-medium">
+                  {selectedRequest.user.name} -{" "}
+                  {selectedRequest.user.department}
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold uppercase tracking-wide text-gray-500">
+                  Subject
+                </p>
+                <p className="text-gray-800 font-medium">
+                  {selectedRequest.subject}
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold uppercase tracking-wide text-gray-500">
+                  Category
+                </p>
+                <p className="text-gray-800 font-medium">
+                  {selectedRequest.category}
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold uppercase tracking-wide text-gray-500">
+                  Description
+                </p>
+                <p className="text-gray-800 font-medium">
+                  {selectedRequest.description}
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold uppercase tracking-wide text-gray-500">
+                  Status
+                </p>
+                <span
+                  className={`px-3 py-1 rounded-full font-semibold text-sm ${getRequestStatusColor(selectedRequest.status)}`}
+                >
+                  {selectedRequest.status}
+                </span>
+              </div>
             </div>
           </div>
         </div>
