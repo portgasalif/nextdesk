@@ -262,73 +262,49 @@ export default function AdminDashboardPage() {
           onClick={() => setSelectedRequest(null)}
         >
           <div
-            className="bg-white rounded-xl p-8 max-w-lg w-full mx-4"
+            className="bg-white rounded-xl overflow-hidden max-w-lg w-full mx-4 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between ">
+            <div className="bg-blue-900 px-8 py-5 flex justify-between items-start">
               <div className="space-y-1">
-                <h2 className="font-bold  ">Request Detail</h2>
-                <p>
-                  {new Date(selectedRequest.createdAt).toLocaleDateString(
-                    "id-ID",
-                    {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    },
-                  )}
+                <h2 className="font-bold text-white text-lg">Request Detail</h2>
+                <p className="text-blue-300 text-sm">
+                  {new Date(selectedRequest.createdAt).toLocaleDateString("id-ID", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedRequest(null)}
-                className="border rounded-lg p-3 cursor-pointer"
+                className="text-blue-300 hover:text-white text-2xl leading-none cursor-pointer"
               >
-                X
+                &times;
               </button>
             </div>
-            <div className="space-y-3 mt-4">
+            <div className="p-8 space-y-4">
               <div>
-                <p className="font-semibold uppercase tracking-wide text-gray-500">
-                  Employee
-                </p>
-                <p className="text-gray-800 font-medium">
-                  {selectedRequest.user.name} -{" "}
-                  {selectedRequest.user.department}
-                </p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Employee</p>
+                <p className="text-gray-800 font-medium mt-1">{selectedRequest.user.name} — {selectedRequest.user.department}</p>
               </div>
               <div>
-                <p className="font-semibold uppercase tracking-wide text-gray-500">
-                  Subject
-                </p>
-                <p className="text-gray-800 font-medium">
-                  {selectedRequest.subject}
-                </p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Subject</p>
+                <p className="text-gray-800 font-medium mt-1">{selectedRequest.subject}</p>
               </div>
               <div>
-                <p className="font-semibold uppercase tracking-wide text-gray-500">
-                  Category
-                </p>
-                <p className="text-gray-800 font-medium">
-                  {selectedRequest.category}
-                </p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Category</p>
+                <p className="text-gray-800 font-medium mt-1">{selectedRequest.category}</p>
               </div>
               <div>
-                <p className="font-semibold uppercase tracking-wide text-gray-500">
-                  Description
-                </p>
-                <p className="text-gray-800 font-medium">
-                  {selectedRequest.description}
-                </p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Description</p>
+                <p className="text-gray-800 font-medium mt-1 whitespace-pre-wrap">{selectedRequest.description}</p>
               </div>
               <div>
-                <p className="font-semibold uppercase tracking-wide text-gray-500">
-                  Status
-                </p>
-                <span
-                  className={`px-3 py-1 rounded-full font-semibold text-sm ${getRequestStatusColor(selectedRequest.status)}`}
-                >
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Status</p>
+                <span className={`mt-1 inline-block px-3 py-1 rounded-full font-semibold text-sm ${getRequestStatusColor(selectedRequest.status)}`}>
                   {selectedRequest.status}
                 </span>
               </div>

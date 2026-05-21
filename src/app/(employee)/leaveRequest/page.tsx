@@ -74,7 +74,7 @@ export default function LeaveRequestPage() {
           </button>
         </div>
       </div>
-      <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100 ">
+      <div className="bg-white shadow-lg rounded-xl overflow-x-auto border border-gray-100 ">
         <table className="w-full text-center">
           <thead className="bg-gradient-to-r from-slate-800 to-slate-900">
             <tr>

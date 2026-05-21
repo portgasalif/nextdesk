@@ -11,11 +11,13 @@ type Request = {
   category: string;
   createdAt: string;
   status: string;
+  description: string;
 };
 
 export default function DashboardEmployeePage() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -86,7 +88,7 @@ export default function DashboardEmployeePage() {
           </div>
         </div>
       </div>
-      <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
+      <div className="bg-white shadow-lg rounded-xl overflow-x-auto border border-gray-100">
         <table className="w-full text-center">
           <thead className="bg-gradient-to-r from-slate-800 to-slate-900">
             <tr>
@@ -129,7 +131,8 @@ export default function DashboardEmployeePage() {
                 sortedRequests.map((request, index) => (
                   <tr
                     key={request.id}
-                    className="even:bg-slate-50 hover:bg-slate-100 transition-all duration-200"
+                    className="even:bg-slate-50 hover:bg-slate-100 transition-all duration-200 cursor-pointer"
+                    onClick={() => setSelectedRequest(request)}
                   >
                     <td className="px-6 py-4 text-base text-slate-900 font-medium">
                       {index + 1}
@@ -163,6 +166,77 @@ export default function DashboardEmployeePage() {
           )}
         </table>
       </div>
+      {selectedRequest && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          onClick={() => setSelectedRequest(null)}
+        >
+          <div
+            className="bg-white rounded-xl overflow-hidden max-w-lg w-full mx-4 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="bg-gradient-to-r from-slate-800 to-slate-900 px-8 py-5 flex justify-between items-start">
+              <div className="space-y-1">
+                <h2 className="font-bold text-white text-lg">Request Detail</h2>
+                <p className="text-slate-400 text-sm">
+                  {new Date(selectedRequest.createdAt).toLocaleDateString(
+                    "id-ID",
+                    {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    },
+                  )}
+                </p>
+              </div>
+              <button
+                onClick={() => setSelectedRequest(null)}
+                className="text-slate-400 hover:text-white text-2xl leading-none cursor-pointer"
+              >
+                &times;
+              </button>
+            </div>
+            <div className="p-8 space-y-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                  Subject
+                </p>
+                <p className="text-gray-800 font-medium mt-1">
+                  {selectedRequest.subject}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                  Category
+                </p>
+                <p className="text-gray-800 font-medium mt-1">
+                  {selectedRequest.category}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                  Description
+                </p>
+                <p className="text-gray-800 font-medium mt-1 whitespace-pre-wrap">
+                  {selectedRequest.description}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                  Status
+                </p>
+                <span
+                  className={`mt-1 inline-block px-3 py-1 rounded-full font-semibold text-sm ${getRequestStatusColor(selectedRequest.status)}`}
+                >
+                  {selectedRequest.status}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
