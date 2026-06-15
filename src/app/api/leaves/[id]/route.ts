@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 
 export async function PATCH(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: idParam } = await params;
@@ -14,7 +14,7 @@ export async function PATCH(
     if (isNaN(id)) {
       return NextResponse.json(
         { message: "Invalid leave ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (!status) {
@@ -24,7 +24,7 @@ export async function PATCH(
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -34,7 +34,7 @@ export async function PATCH(
         {
           message: "Invalid status value",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const existingLeaveRequest = await prisma.leave.findUnique({
@@ -45,20 +45,36 @@ export async function PATCH(
         {
           message: "Leave request not found",
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
     const updatedLeaveRequest = await prisma.leave.update({
       where: { id },
       data: { status, approvedBy },
-      include: { user: true, approver: true },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            department: true,
+            role: true,
+          },
+        },
+        approver: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
     return NextResponse.json(
       {
         message: "Leave request status updated successfully",
         leave: updatedLeaveRequest,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error updating leave request status:", error);
@@ -66,7 +82,7 @@ export async function PATCH(
       {
         message: "Internal server error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
