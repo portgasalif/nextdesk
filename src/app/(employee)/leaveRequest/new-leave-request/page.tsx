@@ -56,6 +56,13 @@ export default function NewLeaveRequestPage() {
       setLoading(false);
     }
   };
+  const totalDays =
+    startDate && endDate && new Date(endDate) >= new Date(startDate)
+      ? Math.floor(
+          (new Date(endDate).getTime() - new Date(startDate).getTime()) /
+            (1000 * 60 * 60 * 24),
+        ) + 1
+      : 0;
   return (
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-xl border border-slate-200 p-8">
@@ -128,7 +135,13 @@ export default function NewLeaveRequestPage() {
               />
             </div>
           </div>
-
+          {totalDays > 0 && (
+            <p className="text-sm text-slate-600 font-medium">
+              Total: <span className="font-semibold">
+                {totalDays} day{totalDays > 1 ? "s" : ""}
+              </span>
+            </p>
+          )}
           <div>
             <label
               htmlFor="reason"

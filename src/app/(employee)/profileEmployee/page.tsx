@@ -47,9 +47,8 @@ export default function ProfileEmployeePage() {
               const newDays =
                 new Date(leave.endDate).getTime() -
                 new Date(leave.startDate).getTime();
-              const newDaysResult = Math.floor(newDays / (1000 * 60 * 60 * 24));
-              console.log("newDays ms:", newDays);
-              console.log("newDaysResult:", newDaysResult);
+              const newDaysResult =
+                Math.floor(newDays / (1000 * 60 * 60 * 24)) + 1;
               return total + newDaysResult;
             },
             0,

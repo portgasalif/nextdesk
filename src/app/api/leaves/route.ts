@@ -55,6 +55,7 @@ export async function GET(request: Request) {
     if (userId) {
       leaves = await prisma.leave.findMany({
         where: { userId: parseInt(userId) },
+        orderBy: { createdAt: "desc" },
         include: {
           user: {
             select: {
@@ -69,6 +70,7 @@ export async function GET(request: Request) {
       });
     } else {
       leaves = await prisma.leave.findMany({
+        orderBy: { createdAt: "desc" },
         include: {
           user: {
             select: {

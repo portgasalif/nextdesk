@@ -1,6 +1,6 @@
 # 🎫 NextDesk - IT Help Desk System
 
-Modern IT help desk ticketing system for managing support requests and leave approvals. Built with Next.js 15, TypeScript, and PostgreSQL.
+Modern IT help desk ticketing system for managing support requests and leave approvals. Built with Next.js 16, TypeScript, and PostgreSQL.
 
 ## 📋 Features
 
@@ -20,7 +20,7 @@ Modern IT help desk ticketing system for managing support requests and leave app
 
 ## 🛠 Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Database**: PostgreSQL + Prisma ORM
 - **Styling**: Tailwind CSS
 - **Language**: TypeScript
