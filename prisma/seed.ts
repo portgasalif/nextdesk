@@ -8,16 +8,16 @@ async function main() {
 
   // Hash passwords
   const adminPassword = await bcrypt.hash("admin123", 10);
-  const employeePassword = await bcrypt.hash("employee123", 10);
+  const employeePassword = await bcrypt.hash("user123", 10);
 
   // Create admin user
   const admin = await prisma.user.upsert({
-    where: { username: "admin" },
+    where: { username: "demo_admin" },
     update: {},
     create: {
-      username: "admin",
+      username: "demo_admin",
       password: adminPassword,
-      name: "Admin User",
+      name: "Demo Admin",
       role: "admin",
       department: "IT",
     },
@@ -27,12 +27,12 @@ async function main() {
 
   // Create employee user
   const employee = await prisma.user.upsert({
-    where: { username: "employee" },
+    where: { username: "demo_employee" },
     update: {},
     create: {
-      username: "employee",
+      username: "demo_employee",
       password: employeePassword,
-      name: "Employee User",
+      name: "Demo Employee",
       role: "employee",
       department: "Sales",
     },
