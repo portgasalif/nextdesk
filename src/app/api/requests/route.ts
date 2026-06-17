@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     if (!subject || !description || !category || !userId) {
       return NextResponse.json(
         { message: "All fields are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const newRequest = await prisma.request.create({
@@ -24,13 +24,13 @@ export async function POST(request: Request) {
         status: "success",
         request: newRequest,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Request creation error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -43,11 +43,33 @@ export async function GET(request: Request) {
     if (userId) {
       requests = await prisma.request.findMany({
         where: { userId: parseInt(userId) },
-        include: { user: true },
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              department: true,
+              role: true,
+            },
+          },
+        },
       });
     } else {
       requests = await prisma.request.findMany({
-        include: { user: true },
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              department: true,
+              role: true,
+            },
+          },
+        },
       });
     }
     return NextResponse.json({ requests });
@@ -55,7 +77,7 @@ export async function GET(request: Request) {
     console.error("Request fetching error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

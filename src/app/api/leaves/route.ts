@@ -9,13 +9,13 @@ export async function POST(request: Request) {
     if (!userId || !leaveType || !startDate || !endDate) {
       return NextResponse.json(
         { message: "All fields are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (new Date(endDate) < new Date(startDate)) {
       return NextResponse.json(
         { message: "End date must be after or equal to start date" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const newLeave = await prisma.leave.create({
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         status: "success",
         leave: newLeave,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Leave creation error:", error);
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }
@@ -55,11 +55,33 @@ export async function GET(request: Request) {
     if (userId) {
       leaves = await prisma.leave.findMany({
         where: { userId: parseInt(userId) },
-        include: { user: true },
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              department: true,
+              role: true,
+            },
+          },
+        },
       });
     } else {
       leaves = await prisma.leave.findMany({
-        include: { user: true },
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              department: true,
+              role: true,
+            },
+          },
+        },
       });
     }
     return NextResponse.json({ leaves });
@@ -71,7 +93,7 @@ export async function GET(request: Request) {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }
